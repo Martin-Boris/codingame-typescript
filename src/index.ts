@@ -6,6 +6,6 @@ const map = parseMap();
 
 while (true) {
     const gameState = parseGameState(map);
-    const bestMove = findBestMove(gameState.possibleMoves, map);
+    const bestMove = findBestMove(gameState.possibleMoves, map, gameState);
     console.log(formatMove(bestMove));
 }

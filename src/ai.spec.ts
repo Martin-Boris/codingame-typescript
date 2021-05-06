@@ -6,7 +6,7 @@ describe('Index', () => {
 
     describe('Best move', () => {
 
-        it('should prefer completing moves with higher richness', () => {
+        xit('should prefer completing moves with higher richness', () => {
             const map: Map = [
                 cell({ index: 0, richness: 0 }),
                 cell({ index: 1, richness: 2 }),
