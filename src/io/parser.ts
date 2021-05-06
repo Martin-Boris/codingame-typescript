@@ -1,3 +1,4 @@
+import { Move } from "./move";
 import { GameState, Map } from "./input";
 
 export function parseMap(): Map {
@@ -58,14 +59,14 @@ export function parseGameState(map: Map) {
   const numberOfTrees: number = parseInt(readline()); // the current amount of trees
   for (let i = 0; i < numberOfTrees; i++) {
     var inputs: string[] = readline().split(' ');
-    const cellIndex: number = parseInt(inputs[0]); // location of this tree
+    const cellId: number = parseInt(inputs[0]); // location of this tree
     const size: number = parseInt(inputs[1]); // size of this tree: 0-3
     const isMine: boolean = inputs[2] !== '0'; // 1 if this is your tree
     const isDormant: boolean = inputs[3] !== '0'; // 1 if this tree is dormant
 
     gameState.trees.push({
-      cellIndex,
-      cell: map[cellIndex],
+      cellId,
+      cell: map[cellId],
       isDormant,
       isMine,
       size
@@ -73,9 +74,24 @@ export function parseGameState(map: Map) {
   }
   const numberOfPossibleMoves: number = parseInt(readline());
   for (let i = 0; i < numberOfPossibleMoves; i++) {
-    const possibleMove: string = readline();
+    const possibleMove = parseMove(readline());
     gameState.possibleMoves.push(possibleMove);
   }
 
   return gameState;
+}
+
+function parseMove(input: string): Move {
+  const tokens = input.split(' ');
+  let move: Move;
+
+  switch (tokens[0]) {
+    case 'WAIT': move = { type: 'WAIT' }; break;
+    case 'GROW': move = { type: 'GROW', cellId: parseInt(tokens[1]) }; break;
+    case 'COMPLETE': move = { type: 'COMPLETE', cellId: parseInt(tokens[1]) }; break;
+    case 'SEED': move = { type: 'SEED', sourceId: parseInt(tokens[1]), targetId: parseInt(tokens[1]) }; break;
+    default: throw new Error('Unknown move: ' + input);
+  }
+
+  return move;
 }

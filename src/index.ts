@@ -1,14 +1,24 @@
+import { formatMove, Move } from "./io/move";
 import { parseGameState, parseMap } from "./io/parser";
+import find from "./utils/find";
 
 const map = parseMap();
 
 while (true) {
-  const gameState = parseGameState(map);
+    const gameState = parseGameState(map);
 
-  // Debug code
-  // console.error(gameState.possibleMoves);
+    let bestMoveRichness = 0;
+    let bestMove: Move = { type: 'WAIT' };
 
-  // Possible actions: GROW cellIdx | SEED sourceIdx targetIdx | COMPLETE cellIdx | WAIT <message>)
-  // console.log('WAIT');
-  console.log(gameState.possibleMoves[0]);
+    for (const move of gameState.possibleMoves) {
+        if (move.type === 'COMPLETE') {
+            const cellRichness = map[move.cellId].richness;
+            if (cellRichness > bestMoveRichness) {
+                bestMoveRichness = cellRichness;
+                bestMove = move;
+            }
+        }
+    }
+
+    console.log(formatMove(bestMove));
 }
