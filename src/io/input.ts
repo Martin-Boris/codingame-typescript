@@ -1,7 +1,8 @@
-export type Map = Cell[];
+export interface Map {
+  [index: number]: Cell;
+}
 
 export interface Cell {
-
   /**
    * 0 is the center cell, the next cells spiral outwards
    */
@@ -24,7 +25,6 @@ export interface Cell {
 }
 
 export interface GameState {
-
   /**
    * the game lasts 24 days: 0-23
    */
@@ -69,7 +69,6 @@ export interface GameState {
 }
 
 export interface Tree {
-
   /**
    * location of this tree
    */
