@@ -1,4 +1,4 @@
-import { Map } from "../../io/input";
+import { Map } from "../io/input";
 import { SeedAction } from "./seed-action";
 
 describe("SeedAction", () => {

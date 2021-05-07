@@ -1,5 +1,7 @@
-import { Map, Tree } from "../../io/input";
+import { Map, Tree } from "../io/input";
+import { SeedAction } from "../action/seed-action";
 import actionFactory from "./actions-factory";
+import { SeedActions } from "./seed-actions";
 
 describe("actions-factory", () => {
   it("should init action from string", () => {
@@ -28,8 +30,21 @@ describe("actions-factory", () => {
       isMine: false,
       isDormant: false,
     };
-    let trees: Partial<Tree>[] = [tree_0, tree_1];
-    const actions = ["WAIT", "GROW 0", "GROW 1", "SEED 15 12", "SEED 12 15"];
+    const tree_15 = {
+      cellIndex: 15,
+      size: 3,
+      isMine: true,
+      isDormant: false,
+    };
+    let trees: Partial<Tree>[] = [tree_0, tree_1, tree_15];
+    const actions = [
+      "WAIT",
+      "COMPLETE 15",
+      "GROW 0",
+      "GROW 1",
+      "SEED 15 12",
+      "SEED 12 15",
+    ];
     const InstanciateAction = actionFactory(actions, map, trees as Tree[]);
     expect(InstanciateAction.growActions.actions).toHaveLength(2);
     expect(InstanciateAction.growActions.actions[0].getStringAction()).toBe(
@@ -38,6 +53,12 @@ describe("actions-factory", () => {
     expect(InstanciateAction.seedActions.actions).toHaveLength(2);
     expect(InstanciateAction.seedActions.actions[0].getStringAction()).toBe(
       "SEED 15 12"
+    );
+    expect((InstanciateAction.seedActions as SeedActions).numberOfSeed).toBe(1);
+
+    expect(InstanciateAction.completeActions.actions).toHaveLength(1);
+    expect(InstanciateAction.completeActions.actions[0].getStringAction()).toBe(
+      "COMPLETE 15"
     );
   });
 });

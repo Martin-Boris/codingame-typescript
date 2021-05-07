@@ -1,107 +1,43 @@
-import { Map, Tree } from "../io/input";
+import { CompleteActions } from "../actions/complete-actions";
+import { GrowActions } from "../actions/grow-actions";
+import { SeedActions } from "../actions/seed-actions";
 import { ActionController } from "./action-controller";
 
 describe("actions", () => {
-  const cell_15 = {
-    index: 15,
-    richness: 1,
-    neighborIndexes: [],
-    neighbors: [],
-  };
-  const cell_12 = {
-    index: 12,
-    richness: 3,
-    neighborIndexes: [],
-    neighbors: [],
-  };
-  let map: Map = { 15: cell_15, 12: cell_12 };
-  let tree_35 = {
-    cellIndex: 35,
-    size: 0,
-    isMine: true,
-    isDormant: false,
-  };
-  let trees: Partial<Tree>[] = [
-    tree_35,
-    {
-      cellIndex: 1,
-      size: 0,
-      isMine: false,
-      isDormant: false,
-    },
-  ];
-
-  describe("initialisation", () => {
-    it("should init only seed action from a list of action", () => {
-      let actions = ["WAIT", "GROW 35", "SEED 15 12"];
-      let actionController: ActionController = new ActionController(
-        actions,
-        map,
-        []
-      );
-      expect(actionController.seedAvailableActions).toHaveLength(1);
-      expect(actionController.seedAvailableActions[0].cellFrom).toBe(cell_15);
-      expect(actionController.seedAvailableActions[0].cellTo).toBe(cell_12);
-    });
-
-    it("should init only mine treew from a list of trees", () => {
-      let actions = ["WAIT", "GROW 35", "SEED 15 12"];
-      let seedActions: ActionController = new ActionController(
-        actions,
-        map,
-        trees as Tree[]
-      );
-      expect(seedActions.mineTrees).toHaveLength(1);
-      expect(seedActions.mineTrees[0].size).toBe(0);
-      expect(seedActions.mineTrees[0].isMine).toBeTruthy();
-    });
-
-    it("should init grow action from list of action", () => {
-      let actions = ["WAIT", "GROW 35", "SEED 15 12"];
-      let seedActions: ActionController = new ActionController(
-        actions,
-        map,
-        trees as Tree[]
-      );
-      expect(seedActions.growAvailableActions).toHaveLength(1);
-      expect(seedActions.growAvailableActions[0].type).toBe("GROW");
-      expect(seedActions.growAvailableActions[0].tree).toBe(tree_35);
-    });
-  });
-
   describe("selectBestMove", () => {
-    it("should select WAIT if there is already a seed", () => {
-      let actions = ["WAIT", "SEED 15 12", "SEED 12 15"];
-      let seedActions: ActionController = new ActionController(
-        actions,
-        map,
-        trees as Tree[]
+    let completeAction: CompleteActions;
+    let growAction: GrowActions;
+    let seedAction: SeedActions;
+    let actionController: ActionController;
+    beforeEach(() => {
+      completeAction = new CompleteActions([]);
+      growAction = new GrowActions([]);
+      seedAction = new SeedActions([], 0);
+      actionController = new ActionController(
+        seedAction,
+        growAction,
+        completeAction
       );
-      let action = seedActions.selectBestMove();
-      expect(action).toBe("WAIT");
     });
-    it("should select the more efficient tree to grow", () => {
-      let trees: Partial<Tree>[] = [
-        {
-          cellIndex: 35,
-          size: 1,
-          isMine: true,
-          isDormant: false,
-        },
-        {
-          cellIndex: 1,
-          size: 2,
-          isMine: true,
-          isDormant: false,
-        },
-      ];
-      let actions = ["WAIT", "GROW 35", "GROW 1"];
-      let actionController: ActionController = new ActionController(
-        actions,
-        map,
-        trees as Tree[]
-      );
-      expect(actionController.selectBestMove()).toBe("GROW 1");
+    it("should wait", () => {
+      expect(actionController.selectBestMove(0)).toBe("WAIT");
+    });
+    it("should Complete action", () => {
+      completeAction.getBestAction = jest
+        .fn()
+        .mockImplementation(() => "COMPLETE 1");
+      expect(actionController.selectBestMove(0)).toBe("COMPLETE 1");
+    });
+    it("should Grow action", () => {
+      completeAction.getBestAction = jest.fn().mockImplementation(() => "");
+      growAction.getBestAction = jest.fn().mockImplementation(() => "GROW 1");
+      expect(actionController.selectBestMove(0)).toBe("GROW 1");
+    });
+    it("should seed action", () => {
+      completeAction.getBestAction = jest.fn().mockImplementation(() => "");
+      growAction.getBestAction = jest.fn().mockImplementation(() => "");
+      seedAction.getBestAction = jest.fn().mockImplementation(() => "SEED 1");
+      expect(actionController.selectBestMove(0)).toBe("SEED 1");
     });
   });
 });

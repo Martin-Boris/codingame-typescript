@@ -1,4 +1,4 @@
-import { Tree } from "../../io/input";
+import { Tree } from "../io/input";
 import { GrowAction } from "./grow-action";
 
 describe("GrowAction", () => {

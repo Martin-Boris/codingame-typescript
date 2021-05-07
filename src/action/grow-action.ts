@@ -1,4 +1,4 @@
-import { Tree } from "../../io/input";
+import { Tree } from "../io/input";
 import { Action } from "./action";
 
 export class GrowAction implements Action {

@@ -1,6 +1,6 @@
-import { ActionController } from "./action/action-controller";
-import { AIEngine as AIEngine } from "./ai-engine";
+import { ActionController } from "./controller/action-controller";
 import { parseGameState, parseMap } from "./io/parser";
+import actionFactory from "./actions/actions-factory";
 
 const map = parseMap();
 
@@ -13,12 +13,17 @@ while (true) {
   // Possible actions: GROW cellIdx | SEED sourceIdx targetIdx | COMPLETE cellIdx | WAIT <message>)
   // console.log('WAIT');
 
-  const actionController = new ActionController(
+  const instanciateAction = actionFactory(
     gameState.possibleMoves,
     map,
     gameState.trees
   );
 
-  const aiEngine = new AIEngine(map);
-  console.log(aiEngine.computeNextMove(gameState, actionController));
+  const actionController = new ActionController(
+    instanciateAction.seedActions,
+    instanciateAction.growActions,
+    instanciateAction.completeActions
+  );
+
+  console.log(actionController.selectBestMove(gameState.day));
 }

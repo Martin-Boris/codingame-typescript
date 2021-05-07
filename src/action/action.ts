@@ -1,4 +1,4 @@
 export interface Action {
-  type: "SEED" | "GROW";
+  type: "SEED" | "GROW" | "COMPLETE";
   getStringAction(): string;
 }

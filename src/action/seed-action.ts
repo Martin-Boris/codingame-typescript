@@ -1,4 +1,4 @@
-import { Cell, Map } from "../../io/input";
+import { Cell, Map } from "../io/input";
 import { Action } from "./action";
 
 export class SeedAction implements Action {
