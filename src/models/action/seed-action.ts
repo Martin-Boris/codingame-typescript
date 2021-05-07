@@ -1,6 +1,7 @@
-import { Cell, Map } from "./input";
+import { Cell, Map } from "../../io/input";
+import { Action } from "./action";
 
-export class Action {
+export class SeedAction implements Action {
   private _type: "SEED";
   private _cellFrom: Cell;
   private _cellTo: Cell;
@@ -9,11 +10,17 @@ export class Action {
     return action.includes("SEED");
   }
 
-  constructor(action: String, map: Map) {
-    this._type = "SEED";
+  public static initFromString(action: String, map: Map): SeedAction {
     const partialAction = action.split(" ");
-    this._cellFrom = map[parseInt(partialAction[1])];
-    this._cellTo = map[parseInt(partialAction[2])];
+    let cellFrom = map[parseInt(partialAction[1])];
+    let cellTo = map[parseInt(partialAction[2])];
+    return new SeedAction(cellFrom, cellTo);
+  }
+
+  constructor(cellFrom: Cell, cellTo: Cell) {
+    this._type = "SEED";
+    this._cellFrom = cellFrom;
+    this._cellTo = cellTo;
   }
 
   get type() {

@@ -1,5 +1,5 @@
-import { Action } from "./io/action";
-import { Actions } from "./io/actions";
+import { ActionController } from "./controller/action-controller";
+import { SeedAction } from "./models/action/seed-action";
 import { GameState, Map } from "./io/input";
 
 export class AIEngine {
@@ -9,17 +9,18 @@ export class AIEngine {
     this.map = map;
   }
 
-  public computeNextMove(gameState: GameState, map: Map): string {
+  public computeNextMove(
+    gameState: GameState,
+    actionController: ActionController
+  ): String {
     if (gameState.possibleMoves.length === 1) {
       return gameState.possibleMoves[0];
     }
     const activeActions = gameState.possibleMoves.filter(
       (move) => move != "WAIT"
     );
-    if (Action.isSEEDActionFromString(activeActions[0])) {
-      return new Actions(activeActions, map)
-        .selectBestOption()
-        .getStringAction();
+    if (SeedAction.isSEEDActionFromString(activeActions[0])) {
+      return actionController.selectBestMove();
     }
     return activeActions[0];
   }
