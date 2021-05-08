@@ -15,11 +15,17 @@ export function parseMap(): Map {
     const neigh4: number = parseInt(inputs[6]);
     const neigh5: number = parseInt(inputs[7]);
 
+    let neigh = [neigh0, neigh1, neigh2, neigh3, neigh4, neigh5];
+    let neighboor = [];
+    neigh.forEach((neigh) => {
+      if (neigh >= 0) neighboor.push(neigh);
+    });
+
     map[index] = {
       index,
       richness,
       neighbors: [],
-      neighborIndexes: [neigh0, neigh1, neigh2, neigh3, neigh4, neigh5],
+      neighborIndexes: neighboor,
     };
   }
 

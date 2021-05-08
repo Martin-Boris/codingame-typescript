@@ -2,15 +2,15 @@ import { SeedAction } from "../action/seed-action";
 import { Actions } from "./actions";
 import { SEED_TRESHOLD_DAY } from "../constante/treshold";
 import { Tree } from "../io/input";
-import { SEED_SIZE_TIER, SIZE_TIER_1 } from "../constante/game-constante";
+import { SEED_SIZE_TIER } from "../constante/game-constante";
 
 export class SeedActions implements Actions {
   private _actions: SeedAction[];
-  private _mineTree: Tree[];
+  private _trees: Tree[];
 
-  constructor(actions: SeedAction[], mineTree: Tree[]) {
+  constructor(actions: SeedAction[], trees: Tree[]) {
     this._actions = actions;
-    this._mineTree = mineTree;
+    this._trees = trees;
   }
 
   getBestAction(day: number): String {
@@ -21,12 +21,17 @@ export class SeedActions implements Actions {
     ) {
       return "";
     }
-    let seedActionFiltered = this._actions.filter(
-      (action) => action.treeFrom.size > SIZE_TIER_1
+
+    const bestAction = this._actions.reduce(
+      (bestAction, action) =>
+        action.computeScore(this._trees) > bestAction.computeScore(this._trees)
+          ? action
+          : bestAction,
+      this._actions[0]
     );
-    return seedActionFiltered.length === 0
-      ? ""
-      : seedActionFiltered[0].getStringAction();
+    return bestAction.computeScore(this._trees) > 0
+      ? bestAction.getStringAction()
+      : "";
   }
 
   public get actions(): SeedAction[] {
@@ -34,10 +39,12 @@ export class SeedActions implements Actions {
   }
 
   public get mineTree(): Tree[] {
-    return this._mineTree;
+    return this._trees;
   }
 
   private isAlreadyASeed(): boolean {
-    return this._mineTree.some((tree) => tree.size === SEED_SIZE_TIER);
+    return this._trees.some(
+      (tree) => tree.size === SEED_SIZE_TIER && tree.isMine
+    );
   }
 }

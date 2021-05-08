@@ -7,11 +7,13 @@ import { Actions } from "./actions";
 import { CompleteActions } from "./complete-actions";
 import { GrowActions } from "./grow-actions";
 import { SeedActions } from "./seed-actions";
+import { TresholdState } from "../constante/treshold";
 
 const actionFactory = (
   actions: String[],
   map: Map,
-  trees: Tree[]
+  trees: Tree[],
+  tresholdState: TresholdState
 ): { seedActions: Actions; growActions: Actions; completeActions: Actions } => {
   const seedActions: SeedAction[] = [];
   const growActions: GrowAction[] = [];
@@ -29,9 +31,9 @@ const actionFactory = (
   });
   const mineTree = getMineTree(trees);
   return {
-    seedActions: new SeedActions(seedActions, mineTree),
-    growActions: new GrowActions(growActions, mineTree),
-    completeActions: new CompleteActions(completeActions),
+    seedActions: new SeedActions(seedActions, trees),
+    growActions: new GrowActions(growActions, mineTree, tresholdState),
+    completeActions: new CompleteActions(completeActions, tresholdState),
   };
 };
 

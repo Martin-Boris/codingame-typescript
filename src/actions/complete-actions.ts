@@ -1,12 +1,14 @@
 import { CompleteAction } from "../action/complete-action";
 import { Actions } from "./actions";
-import { MAX_T3_TRESHOLD, COMPLETE_TRESHOLD_DAY } from "../constante/treshold";
+import { TresholdState } from "../constante/treshold";
 
 export class CompleteActions implements Actions {
   private _actions: CompleteAction[];
+  private tresholdState: TresholdState;
 
-  constructor(actions: CompleteAction[]) {
+  constructor(actions: CompleteAction[], tresholdState: TresholdState) {
     this._actions = actions;
+    this.tresholdState = tresholdState;
   }
 
   getBestAction(day: number): String {
@@ -21,8 +23,6 @@ export class CompleteActions implements Actions {
   }
 
   private isTresholdUnreched(day: number) {
-    return (
-      day < COMPLETE_TRESHOLD_DAY && this._actions.length < MAX_T3_TRESHOLD
-    );
+    return this._actions.length < this.tresholdState.MAX_T3_TRESHOLD;
   }
 }

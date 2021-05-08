@@ -2,6 +2,7 @@ import { Map, Tree } from "../io/input";
 import { SeedAction } from "../action/seed-action";
 import actionFactory from "./actions-factory";
 import { SeedActions } from "./seed-actions";
+import { TresholdState } from "../constante/treshold";
 
 describe("actions-factory", () => {
   it("should init action from string", () => {
@@ -45,7 +46,12 @@ describe("actions-factory", () => {
       "SEED 15 12",
       "SEED 12 15",
     ];
-    const InstanciateAction = actionFactory(actions, map, trees as Tree[]);
+    const InstanciateAction = actionFactory(
+      actions,
+      map,
+      trees as Tree[],
+      new TresholdState(0)
+    );
     expect(InstanciateAction.growActions.actions).toHaveLength(2);
     expect(InstanciateAction.growActions.actions[0].getStringAction()).toBe(
       "GROW 0"
