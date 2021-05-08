@@ -30,13 +30,17 @@ const actionFactory = (
   });
   return {
     seedActions: new SeedActions(seedActions, numberOfseed),
-    growActions: new GrowActions(growActions),
+    growActions: new GrowActions(growActions, getMineTree(trees)),
     completeActions: new CompleteActions(completeActions),
   };
 };
 
 const getNumberOfSeed = (trees: Tree[]): number => {
   return trees.filter((tree) => tree.isMine && tree.size === 0).length;
+};
+
+const getMineTree = (trees: Tree[]): Tree[] => {
+  return trees.filter((tree) => tree.isMine);
 };
 
 export default actionFactory;
