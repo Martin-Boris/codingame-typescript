@@ -16,10 +16,9 @@ const actionFactory = (
   const seedActions: SeedAction[] = [];
   const growActions: GrowAction[] = [];
   const completeActions: CompleteAction[] = [];
-  const numberOfseed = getNumberOfSeed(trees);
   actions.forEach((action) => {
     if (action.includes("SEED")) {
-      seedActions.push(SeedAction.initFromString(action, map));
+      seedActions.push(SeedAction.initFromString(action, map, trees));
     }
     if (action.includes("GROW")) {
       growActions.push(GrowAction.initFromString(action, trees));
@@ -28,15 +27,12 @@ const actionFactory = (
       completeActions.push(CompleteAction.initFromString(action, trees));
     }
   });
+  const mineTree = getMineTree(trees);
   return {
-    seedActions: new SeedActions(seedActions, numberOfseed),
-    growActions: new GrowActions(growActions, getMineTree(trees)),
+    seedActions: new SeedActions(seedActions, mineTree),
+    growActions: new GrowActions(growActions, mineTree),
     completeActions: new CompleteActions(completeActions),
   };
-};
-
-const getNumberOfSeed = (trees: Tree[]): number => {
-  return trees.filter((tree) => tree.isMine && tree.size === 0).length;
 };
 
 const getMineTree = (trees: Tree[]): Tree[] => {

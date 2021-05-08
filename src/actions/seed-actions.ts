@@ -1,32 +1,43 @@
 import { SeedAction } from "../action/seed-action";
 import { Actions } from "./actions";
 import { SEED_TRESHOLD_DAY } from "../constante/treshold";
+import { Tree } from "../io/input";
+import { SEED_SIZE_TIER, SIZE_TIER_1 } from "../constante/game-constante";
 
 export class SeedActions implements Actions {
   private _actions: SeedAction[];
-  private _numberOfSeed: Number;
+  private _mineTree: Tree[];
 
-  constructor(actions: SeedAction[], numberOfSeed: Number) {
+  constructor(actions: SeedAction[], mineTree: Tree[]) {
     this._actions = actions;
-    this._numberOfSeed = numberOfSeed;
+    this._mineTree = mineTree;
   }
 
   getBestAction(day: number): String {
     if (
-      this._numberOfSeed > 0 ||
+      this.isAlreadyASeed() ||
       this._actions.length === 0 ||
       day > SEED_TRESHOLD_DAY
     ) {
       return "";
     }
-    return this._actions[0].getStringAction();
+    let seedActionFiltered = this._actions.filter(
+      (action) => action.treeFrom.size > SIZE_TIER_1
+    );
+    return seedActionFiltered.length === 0
+      ? ""
+      : seedActionFiltered[0].getStringAction();
   }
 
   public get actions(): SeedAction[] {
     return this._actions;
   }
 
-  public get numberOfSeed(): Number {
-    return this._numberOfSeed;
+  public get mineTree(): Tree[] {
+    return this._mineTree;
+  }
+
+  private isAlreadyASeed(): boolean {
+    return this._mineTree.some((tree) => tree.size === SEED_SIZE_TIER);
   }
 }

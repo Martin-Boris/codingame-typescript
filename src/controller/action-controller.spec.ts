@@ -11,8 +11,8 @@ describe("actions", () => {
     let actionController: ActionController;
     beforeEach(() => {
       completeAction = new CompleteActions([]);
-      growAction = new GrowActions([]);
-      seedAction = new SeedActions([], 0);
+      growAction = new GrowActions([], []);
+      seedAction = new SeedActions([], []);
       actionController = new ActionController(
         seedAction,
         growAction,

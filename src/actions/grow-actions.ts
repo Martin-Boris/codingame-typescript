@@ -1,6 +1,6 @@
 import { GrowAction } from "../action/grow-action";
 import {
-  SEDD_SIZE_TIER,
+  SEED_SIZE_TIER,
   SIZE_TIER_1,
   SIZE_TIER_2,
 } from "../constante/game-constante";
@@ -29,8 +29,8 @@ export class GrowActions implements Actions {
     switch (actionToExecute.tree.size) {
       case SIZE_TIER_2:
         return actionToExecute.getStringAction();
-      case SEDD_SIZE_TIER:
-        return this.isAlreadyANextTierTree(SEDD_SIZE_TIER)
+      case SEED_SIZE_TIER:
+        return this.isAlreadyANextTierTree(SEED_SIZE_TIER)
           ? ""
           : actionToExecute.getStringAction();
       case SIZE_TIER_1:

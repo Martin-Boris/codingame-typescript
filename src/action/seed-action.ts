@@ -1,25 +1,27 @@
-import { Cell, Map } from "../io/input";
+import { Cell, Map, Tree } from "../io/input";
 import { Action } from "./action";
 
 export class SeedAction implements Action {
   private _type: "SEED";
-  private _cellFrom: Cell;
+  private _treeFrom: Tree;
   private _cellTo: Cell;
 
-  public static isSEEDActionFromString(action: String) {
-    return action.includes("SEED");
-  }
-
-  public static initFromString(action: String, map: Map): SeedAction {
+  public static initFromString(
+    action: String,
+    map: Map,
+    trees: Tree[]
+  ): SeedAction {
     const partialAction = action.split(" ");
-    let cellFrom = map[parseInt(partialAction[1])];
     let cellTo = map[parseInt(partialAction[2])];
-    return new SeedAction(cellFrom, cellTo);
+    const tree = trees.find(
+      (tree) => tree.cellIndex === parseInt(partialAction[1])
+    );
+    return new SeedAction(tree, cellTo);
   }
 
-  constructor(cellFrom: Cell, cellTo: Cell) {
+  constructor(treeFrom: Tree, cellTo: Cell) {
     this._type = "SEED";
-    this._cellFrom = cellFrom;
+    this._treeFrom = treeFrom;
     this._cellTo = cellTo;
   }
 
@@ -27,8 +29,8 @@ export class SeedAction implements Action {
     return this._type;
   }
 
-  public get cellFrom(): Cell {
-    return this._cellFrom;
+  public get treeFrom(): Tree {
+    return this._treeFrom;
   }
 
   public get cellTo(): Cell {
@@ -36,6 +38,8 @@ export class SeedAction implements Action {
   }
 
   public getStringAction() {
-    return this.type + " " + this._cellFrom.index + " " + this._cellTo.index;
+    return (
+      this.type + " " + this._treeFrom.cellIndex + " " + this._cellTo.index
+    );
   }
 }
