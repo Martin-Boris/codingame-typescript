@@ -2,12 +2,14 @@ const SEED_TRESHOLD_DAY: number = 19;
 const COMPLETE_TRESHOLD_DAY: number = 20;
 const GROW_T1_TRESHOLD_DAY: number = 21;
 const GROW_SEED_TRESHOLD_DAY: number = 20;
+const NBR_DAY_CYCLE_FOR_SHADOW_COMPUTE: number = 3;
 
 export {
   SEED_TRESHOLD_DAY,
   GROW_T1_TRESHOLD_DAY,
   COMPLETE_TRESHOLD_DAY,
   GROW_SEED_TRESHOLD_DAY,
+  NBR_DAY_CYCLE_FOR_SHADOW_COMPUTE,
 };
 
 export class TresholdState {

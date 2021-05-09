@@ -1,20 +1,18 @@
 import { Map, Tree } from "../io/input";
-import { ShadowMap } from "./shadow-map";
+import { ShadowMap, ShadowMapMultipleDay } from "./shadow-map";
 
 export class ShadowCalculator {
-  private day: number;
   private trees: Tree[];
   private map: Map;
 
-  constructor(day: number, trees: Tree[], map: Map) {
-    this.day = day;
+  constructor(trees: Tree[], map: Map) {
     this.trees = trees;
     this.map = map;
   }
-  public compute(): ShadowMap {
+  public compute(day: number): ShadowMap {
     let shadowMap: ShadowMap = {};
     this.trees.forEach((tree) => {
-      const sunIndex = this.day % 6;
+      const sunIndex = day % 6;
       let i = 1;
       let shadowProjectionIndex = tree.cell.neighborIndexes[sunIndex];
       while (i <= tree.size && shadowProjectionIndex != -1) {
@@ -31,5 +29,18 @@ export class ShadowCalculator {
       }
     });
     return shadowMap;
+  }
+
+  public computeMultipleDay(
+    startDay: number,
+    nbrOfDayCycle: number
+  ): ShadowMapMultipleDay {
+    let multipleDayShadowMap: ShadowMapMultipleDay = {};
+    const endDay = startDay + nbrOfDayCycle - 1;
+    while (startDay <= endDay && startDay <= 23) {
+      multipleDayShadowMap[startDay] = this.compute(startDay);
+      startDay++;
+    }
+    return multipleDayShadowMap;
   }
 }

@@ -1,5 +1,4 @@
 import { Map, Tree } from "../io/input";
-import { SeedAction } from "../action/seed/seed-action";
 import actionFactory from "./actions-factory";
 import { SeedActions } from "./seed-actions";
 import { TresholdState } from "../constante/treshold";
@@ -50,7 +49,10 @@ describe("actions-factory", () => {
       actions,
       map,
       trees as Tree[],
-      new TresholdState(0)
+      new TresholdState(0),
+      {
+        1: {},
+      }
     );
     expect(InstanciateAction.growActions.actions).toHaveLength(2);
     expect(InstanciateAction.growActions.actions[0].getStringAction()).toBe(
