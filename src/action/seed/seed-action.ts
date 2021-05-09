@@ -1,11 +1,12 @@
-import { Cell, Map, Tree } from "../io/input";
-import { SIZE_TIER_1 } from "../constante/game-constante";
-import { Action } from "./action";
+import { Cell, Map, Tree } from "../../io/input";
+import { Action } from "../action";
+import { SeedScoreCalculator } from "./seed-score-calculator";
 
 export class SeedAction implements Action {
   private _type: "SEED";
   private _treeFrom: Tree;
   private _cellTo: Cell;
+  private _score: number;
 
   public static initFromString(
     action: String,
@@ -14,33 +15,31 @@ export class SeedAction implements Action {
   ): SeedAction {
     const partialAction = action.split(" ");
     let cellTo = map[parseInt(partialAction[2])];
-    const tree = trees.find(
+    const treeFrom = trees.find(
       (tree) => tree.cellIndex === parseInt(partialAction[1])
     );
-    return new SeedAction(tree, cellTo);
+    const seedScoreCalculator = new SeedScoreCalculator(
+      treeFrom,
+      cellTo,
+      trees
+    );
+    const score = seedScoreCalculator.computeScore();
+    return new SeedAction(treeFrom, cellTo, score);
   }
 
-  constructor(treeFrom: Tree, cellTo: Cell) {
+  constructor(treeFrom: Tree, cellTo: Cell, score: number) {
     this._type = "SEED";
     this._treeFrom = treeFrom;
     this._cellTo = cellTo;
-  }
-
-  public computeScore(trees: Tree[]): number {
-    if (this._treeFrom.size <= SIZE_TIER_1) {
-      return 0;
-    }
-    return this._cellTo.neighborIndexes.reduce(
-      (previousScore, neighborIndexe) =>
-        trees.some((tree) => tree.cellIndex === neighborIndexe)
-          ? previousScore - 1
-          : previousScore,
-      6
-    );
+    this._score = score;
   }
 
   get type() {
     return this._type;
+  }
+
+  get score(): number {
+    return this._score;
   }
 
   public get treeFrom(): Tree {

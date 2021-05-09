@@ -2,7 +2,7 @@ import { Map, Tree } from "../io/input";
 import { Action } from "../action/action";
 import { CompleteAction } from "../action/complete-action";
 import { GrowAction } from "../action/grow-action";
-import { SeedAction } from "../action/seed-action";
+import { SeedAction } from "../action/seed/seed-action";
 import { Actions } from "./actions";
 import { CompleteActions } from "./complete-actions";
 import { GrowActions } from "./grow-actions";

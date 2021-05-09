@@ -1,4 +1,4 @@
-import { SeedAction } from "../action/seed-action";
+import { SeedAction } from "../action/seed/seed-action";
 import { Actions } from "./actions";
 import { SEED_TRESHOLD_DAY } from "../constante/treshold";
 import { Tree } from "../io/input";
@@ -15,8 +15,8 @@ export class SeedActions implements Actions {
 
   getBestAction(day: number): String {
     if (
-      this.isAlreadyASeed() ||
       this._actions.length === 0 ||
+      this.isAlreadyASeed() ||
       day > SEED_TRESHOLD_DAY
     ) {
       return "";
@@ -24,14 +24,10 @@ export class SeedActions implements Actions {
 
     const bestAction = this._actions.reduce(
       (bestAction, action) =>
-        action.computeScore(this._trees) > bestAction.computeScore(this._trees)
-          ? action
-          : bestAction,
+        action.score > bestAction.score ? action : bestAction,
       this._actions[0]
     );
-    return bestAction.computeScore(this._trees) > 0
-      ? bestAction.getStringAction()
-      : "";
+    return bestAction.score > 0 ? bestAction.getStringAction() : "";
   }
 
   public get actions(): SeedAction[] {

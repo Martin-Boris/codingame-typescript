@@ -1,5 +1,5 @@
 import { Map, Tree } from "../io/input";
-import { SeedAction } from "../action/seed-action";
+import { SeedAction } from "../action/seed/seed-action";
 import actionFactory from "./actions-factory";
 import { SeedActions } from "./seed-actions";
 import { TresholdState } from "../constante/treshold";
@@ -25,8 +25,8 @@ describe("actions-factory", () => {
       isMine: true,
       isDormant: false,
     };
-    const tree_1 = {
-      cellIndex: 1,
+    const tree_12 = {
+      cellIndex: 12,
       size: 0,
       isMine: false,
       isDormant: false,
@@ -37,7 +37,7 @@ describe("actions-factory", () => {
       isMine: true,
       isDormant: false,
     };
-    let trees: Partial<Tree>[] = [tree_0, tree_1, tree_15];
+    let trees: Partial<Tree>[] = [tree_0, tree_12, tree_15];
     const actions = [
       "WAIT",
       "COMPLETE 15",

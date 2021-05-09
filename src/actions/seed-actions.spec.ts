@@ -1,4 +1,4 @@
-import { SeedAction } from "../action/seed-action";
+import { SeedAction } from "../action/seed/seed-action";
 import { SEED_TRESHOLD_DAY } from "../constante/treshold";
 import { Cell, Tree } from "../io/input";
 import { SeedActions } from "./seed-actions";
@@ -40,32 +40,21 @@ describe("SeedActions", () => {
       let action = actions.getBestAction(0);
       expect(action).toBe("");
     });
-    it("should choose the first seed action from a tree more than T1", () => {
-      let seed_15_12 = new SeedAction(tree_15_size_1, cell_12);
-      let seed_12_15 = new SeedAction(tree_12_size_2, cell_15);
-      const actions = new SeedActions([seed_15_12, seed_12_15], []);
-      let action = actions.getBestAction(0);
-      expect(action).toBe("SEED 12 15");
-    });
     it("should return empty string in case there already is a seed", () => {
-      let seed_15_12 = new SeedAction(tree_15_size_1, cell_12);
-      let seed_12_15 = new SeedAction(tree_12_size_2, cell_15);
-      const actions = new SeedActions([seed_15_12, seed_12_15], [tree_seed]);
+      let seed_15_12 = new SeedAction(tree_15_size_1, cell_12, 1);
+      const actions = new SeedActions([seed_15_12], [tree_seed]);
       let action = actions.getBestAction(0);
       expect(action).toBe("");
     });
     it("should return empty string in case SEED_TRESHOLD_DAY reached", () => {
-      let seed_15_12 = new SeedAction(tree_15_size_1, cell_12);
-      let seed_12_15 = new SeedAction(tree_12_size_2, cell_15);
-      const actions = new SeedActions([seed_15_12, seed_12_15], []);
+      let seed_15_12 = new SeedAction(tree_15_size_1, cell_12, 1);
+      const actions = new SeedActions([seed_15_12], []);
       let action = actions.getBestAction(SEED_TRESHOLD_DAY + 1);
       expect(action).toBe("");
     });
     it("should choose action with best score", () => {
-      let actionLowScore = new SeedAction({} as Tree, {} as Cell);
-      let actionHighScore = new SeedAction({} as Tree, {} as Cell);
-      actionLowScore.computeScore = jest.fn().mockImplementation(() => 1);
-      actionHighScore.computeScore = jest.fn().mockImplementation(() => 2);
+      let actionLowScore = new SeedAction({} as Tree, {} as Cell, 1);
+      let actionHighScore = new SeedAction({} as Tree, {} as Cell, 2);
       actionHighScore.getStringAction = jest
         .fn()
         .mockImplementation(() => "test succes");
@@ -75,8 +64,7 @@ describe("SeedActions", () => {
     });
 
     it("should not execute action when best score is 0", () => {
-      let actionToLowScore = new SeedAction({} as Tree, {} as Cell);
-      actionToLowScore.computeScore = jest.fn().mockImplementation(() => 0);
+      let actionToLowScore = new SeedAction({} as Tree, {} as Cell, 0);
       const actions = new SeedActions([actionToLowScore], []);
       let action = actions.getBestAction(0);
       expect(action).toBe("");
