@@ -75,7 +75,7 @@ describe("ShadowCalculator", () => {
       );
       expect(shadowCalculator.compute(day)).toStrictEqual({
         0: { shadowLevel: 3 },
-        2: { shadowLevel: 5 },
+        2: { shadowLevel: 3 },
       });
     });
   });

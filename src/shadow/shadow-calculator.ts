@@ -20,7 +20,8 @@ export class ShadowCalculator {
           ? shadowMap[shadowProjectionIndex].shadowLevel
           : 0;
         shadowMap[shadowProjectionIndex] = {
-          shadowLevel: previousShadowLevel + tree.size,
+          shadowLevel:
+            previousShadowLevel < tree.size ? tree.size : previousShadowLevel,
         };
         shadowProjectionIndex = this.map[shadowProjectionIndex].neighborIndexes[
           sunIndex

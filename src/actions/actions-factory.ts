@@ -1,7 +1,7 @@
 import { Map, Tree } from "../io/input";
 import { Action } from "../action/action";
 import { CompleteAction } from "../action/complete/complete-action";
-import { GrowAction } from "../action/grow-action";
+import { GrowAction } from "../action/grow/grow-action";
 import { SeedAction } from "../action/seed/seed-action";
 import { Actions } from "./actions";
 import { CompleteActions } from "./complete-actions";
@@ -15,7 +15,8 @@ const actionFactory = (
   map: Map,
   trees: Tree[],
   tresholdState: TresholdState,
-  shadowMapMultipleDay: ShadowMapMultipleDay
+  shadowMapMultipleDay: ShadowMapMultipleDay,
+  day: number
 ): { seedActions: Actions; growActions: Actions; completeActions: Actions } => {
   const seedActions: SeedAction[] = [];
   const growActions: GrowAction[] = [];
@@ -25,7 +26,9 @@ const actionFactory = (
       seedActions.push(SeedAction.initFromString(action, map, trees));
     }
     if (action.includes("GROW")) {
-      growActions.push(GrowAction.initFromString(action, trees));
+      growActions.push(
+        GrowAction.initFromString(action, trees, shadowMapMultipleDay, day)
+      );
     }
     if (action.includes("COMPLETE")) {
       completeActions.push(
@@ -36,7 +39,7 @@ const actionFactory = (
   const mineTree = getMineTree(trees);
   return {
     seedActions: new SeedActions(seedActions, trees),
-    growActions: new GrowActions(growActions, mineTree, tresholdState),
+    growActions: new GrowActions(growActions, mineTree),
     completeActions: new CompleteActions(completeActions, tresholdState),
   };
 };

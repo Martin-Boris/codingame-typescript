@@ -40,8 +40,8 @@ describe("actions-factory", () => {
     const actions = [
       "WAIT",
       "COMPLETE 15",
-      "GROW 0",
-      "GROW 1",
+      "GROW 15",
+      "GROW 12",
       "SEED 15 12",
       "SEED 12 15",
     ];
@@ -52,11 +52,12 @@ describe("actions-factory", () => {
       new TresholdState(0),
       {
         1: {},
-      }
+      },
+      1
     );
     expect(InstanciateAction.growActions.actions).toHaveLength(2);
     expect(InstanciateAction.growActions.actions[0].getStringAction()).toBe(
-      "GROW 0"
+      "GROW 15"
     );
     expect(InstanciateAction.seedActions.actions).toHaveLength(2);
     expect(InstanciateAction.seedActions.actions[0].getStringAction()).toBe(

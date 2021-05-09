@@ -19,7 +19,7 @@ while (true) {
 
   const shadowCalculator = new ShadowCalculator(gameState.trees, map);
   const shadowMap = shadowCalculator.computeMultipleDay(
-    gameState.day,
+    gameState.day + 1,
     NBR_DAY_CYCLE_FOR_SHADOW_COMPUTE
   );
 
@@ -28,7 +28,8 @@ while (true) {
     map,
     gameState.trees,
     tresholdState,
-    shadowMap
+    shadowMap,
+    gameState.day
   );
 
   const actionController = new ActionController(
