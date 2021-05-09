@@ -4,11 +4,9 @@ import { Actions } from "./actions";
 
 export class GrowActions implements Actions {
   private _actions: GrowAction[];
-  private mineTrees: Tree[];
 
-  constructor(actions: GrowAction[], mineTrees: Tree[]) {
+  constructor(actions: GrowAction[]) {
     this._actions = actions;
-    this.mineTrees = mineTrees;
   }
 
   getBestAction(): String {

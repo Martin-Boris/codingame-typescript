@@ -18,7 +18,8 @@ describe("GrowScoreT1Calculator", () => {
     const calculator = new GrowScoreT1Calculator(
       tree_size_2_cell_5,
       shadowMap,
-      3
+      3,
+      0
     );
     expect(calculator.computeScore()).toBe(0);
   });
@@ -36,7 +37,27 @@ describe("GrowScoreT1Calculator", () => {
     const calculator = new GrowScoreT1Calculator(
       tree_size_2_cell_5,
       shadowMap,
-      22
+      22,
+      0
+    );
+    expect(calculator.computeScore()).toBe(0);
+  });
+  it("should compute a 0 score if T2_TREE_TRESHOLD reached", () => {
+    const tree_size_2_cell_5: Tree = {
+      cellIndex: 5,
+      size: 2,
+      isMine: true,
+      isDormant: false,
+    } as Tree;
+    const shadowMap: ShadowMapMultipleDay = {
+      3: {},
+      4: {},
+    };
+    const calculator = new GrowScoreT1Calculator(
+      tree_size_2_cell_5,
+      shadowMap,
+      22,
+      2
     );
     expect(calculator.computeScore()).toBe(0);
   });

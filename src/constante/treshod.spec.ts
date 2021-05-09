@@ -7,7 +7,7 @@ describe("TresholdSate", () => {
   });
   it("should properly init MAX_T3_TRESHOLD in early days", () => {
     const tresholdState = new TresholdState(0);
-    expect(tresholdState.MAX_T3_TRESHOLD).toBe(5);
+    expect(tresholdState.MAX_T3_TRESHOLD).toBe(4);
   });
   it("should properly init MAX_T3_TRESHOLD in end days (20+)", () => {
     const tresholdState = new TresholdState(20);

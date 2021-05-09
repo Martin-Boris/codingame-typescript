@@ -39,7 +39,7 @@ const actionFactory = (
   const mineTree = getMineTree(trees);
   return {
     seedActions: new SeedActions(seedActions, trees),
-    growActions: new GrowActions(growActions, mineTree),
+    growActions: new GrowActions(growActions),
     completeActions: new CompleteActions(completeActions, tresholdState),
   };
 };

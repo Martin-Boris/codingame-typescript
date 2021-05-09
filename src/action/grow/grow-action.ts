@@ -17,7 +17,12 @@ export class GrowAction implements Action {
     const tree: Tree = trees.find(
       (tree) => tree.cellIndex === parseInt(action.split(" ")[1])
     );
-    let calculator = initGrowScoreCalculator(tree, shadowMapMultipleDay, day);
+    let calculator = initGrowScoreCalculator(
+      tree,
+      shadowMapMultipleDay,
+      day,
+      trees
+    );
     return new GrowAction(tree, calculator.computeScore());
   }
 

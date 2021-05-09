@@ -3,6 +3,8 @@ const COMPLETE_TRESHOLD_DAY: number = 20;
 const GROW_T1_TRESHOLD_DAY: number = 21;
 const GROW_SEED_TRESHOLD_DAY: number = 20;
 const NBR_DAY_CYCLE_FOR_SHADOW_COMPUTE: number = 3;
+const T2_TREE_TRESHOLD: number = 2;
+const T1_TREE_TRESHOLD: number = 1;
 
 export {
   SEED_TRESHOLD_DAY,
@@ -10,6 +12,8 @@ export {
   COMPLETE_TRESHOLD_DAY,
   GROW_SEED_TRESHOLD_DAY,
   NBR_DAY_CYCLE_FOR_SHADOW_COMPUTE,
+  T2_TREE_TRESHOLD,
+  T1_TREE_TRESHOLD,
 };
 
 export class TresholdState {
@@ -18,7 +22,7 @@ export class TresholdState {
 
   constructor(day: number) {
     if (day < 20) {
-      this._MAX_T3_TRESHOLD = 5;
+      this._MAX_T3_TRESHOLD = 4;
       this._MAX_T2_AND_T1_TRESHOLD = 2;
     }
     if (day === 23) {
