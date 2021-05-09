@@ -63,12 +63,6 @@ describe("actions-factory", () => {
     expect(InstanciateAction.seedActions.actions[0].getStringAction()).toBe(
       "SEED 15 12"
     );
-    expect((InstanciateAction.seedActions as SeedActions).mineTree).toContain(
-      tree_0
-    );
-    expect((InstanciateAction.seedActions as SeedActions).mineTree).toContain(
-      tree_15
-    );
 
     expect(InstanciateAction.completeActions.actions).toHaveLength(1);
     expect(InstanciateAction.completeActions.actions[0].getStringAction()).toBe(

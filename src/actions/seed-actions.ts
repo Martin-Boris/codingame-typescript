@@ -22,20 +22,33 @@ export class SeedActions implements Actions {
       return "";
     }
 
-    const bestAction = this._actions.reduce(
-      (bestAction, action) =>
-        action.score > bestAction.score ? action : bestAction,
-      this._actions[0]
+    const score = this._actions.reduce(
+      (bestScore, action) =>
+        action.score > bestScore ? action.score : bestScore,
+      this._actions[0].score
     );
-    return bestAction.score > 0 ? bestAction.getStringAction() : "";
+
+    if (score === 0) {
+      return "";
+    }
+
+    const actionsWithBestScore = this._actions.filter(
+      (action) => action.score === score
+    );
+
+    return actionsWithBestScore
+      .reduce(
+        (bestAction, action) =>
+          action.cellTo.richness > bestAction.cellTo.richness
+            ? action
+            : bestAction,
+        actionsWithBestScore[0]
+      )
+      .getStringAction();
   }
 
   public get actions(): SeedAction[] {
     return this._actions;
-  }
-
-  public get mineTree(): Tree[] {
-    return this._trees;
   }
 
   private isAlreadyASeed(): boolean {

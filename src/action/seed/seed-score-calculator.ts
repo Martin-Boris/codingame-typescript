@@ -1,5 +1,6 @@
 import { SIZE_TIER_1 } from "../../constante/game-constante";
 import { Cell, Tree } from "../../io/input";
+import { ShadowMapMultipleDay } from "../../shadow/shadow-map";
 
 export class SeedScoreCalculator {
   private treeFrom: Tree;

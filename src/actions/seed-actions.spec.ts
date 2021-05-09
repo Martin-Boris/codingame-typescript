@@ -53,8 +53,35 @@ describe("SeedActions", () => {
       expect(action).toBe("");
     });
     it("should choose action with best score", () => {
-      let actionLowScore = new SeedAction({} as Tree, {} as Cell, 1);
-      let actionHighScore = new SeedAction({} as Tree, {} as Cell, 2);
+      let actionLowScore = new SeedAction(
+        {} as Tree,
+        { richness: 1 } as Cell,
+        1
+      );
+      let actionHighScore = new SeedAction(
+        {} as Tree,
+        { richness: 1 } as Cell,
+        2
+      );
+      actionHighScore.getStringAction = jest
+        .fn()
+        .mockImplementation(() => "test succes");
+      const actions = new SeedActions([actionLowScore, actionHighScore], []);
+      let action = actions.getBestAction(0);
+      expect(action).toBe("test succes");
+    });
+
+    it("should choose action with best score and best richness", () => {
+      let actionLowScore = new SeedAction(
+        {} as Tree,
+        { richness: 1 } as Cell,
+        2
+      );
+      let actionHighScore = new SeedAction(
+        {} as Tree,
+        { richness: 2 } as Cell,
+        2
+      );
       actionHighScore.getStringAction = jest
         .fn()
         .mockImplementation(() => "test succes");

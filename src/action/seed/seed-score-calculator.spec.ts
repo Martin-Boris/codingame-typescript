@@ -60,4 +60,7 @@ describe("SeedScoreCalculator", () => {
       expect(action.computeScore()).toBe(6);
     });
   });
+  describe("computeShadow", () => {
+    it("should compute score from shadowmap", () => {});
+  });
 });
