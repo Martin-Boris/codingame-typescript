@@ -16,11 +16,15 @@ export class CompleteActions implements Actions {
       return "";
     }
     return this._actions
-      .reduce(
-        (hightScoreAction, action) =>
-          action.score > hightScoreAction.score ? action : hightScoreAction,
-        this._actions[0]
-      )
+      .reduce((hightScoreAction, action) => {
+        console.error({
+          score: action.score,
+          action: action.getStringAction(),
+        });
+        return action.score > hightScoreAction.score
+          ? action
+          : hightScoreAction;
+      }, this._actions[0])
       .getStringAction();
   }
 

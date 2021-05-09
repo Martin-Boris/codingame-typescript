@@ -1,6 +1,5 @@
 import { Map, Tree } from "../io/input";
 import actionFactory from "./actions-factory";
-import { SeedActions } from "./seed-actions";
 import { TresholdState } from "../constante/treshold";
 
 describe("actions-factory", () => {

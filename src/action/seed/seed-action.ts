@@ -1,4 +1,5 @@
 import { Cell, Map, Tree } from "../../io/input";
+import { ShadowMapMultipleDay } from "../../shadow/shadow-map";
 import { Action } from "../action";
 import { SeedScoreCalculator } from "./seed-score-calculator";
 
@@ -11,7 +12,8 @@ export class SeedAction implements Action {
   public static initFromString(
     action: String,
     map: Map,
-    trees: Tree[]
+    trees: Tree[],
+    shadowMapMultipleDay: ShadowMapMultipleDay
   ): SeedAction {
     const partialAction = action.split(" ");
     let cellTo = map[parseInt(partialAction[2])];
@@ -21,10 +23,12 @@ export class SeedAction implements Action {
     const seedScoreCalculator = new SeedScoreCalculator(
       treeFrom,
       cellTo,
-      trees
+      trees,
+      shadowMapMultipleDay
     );
     const score = seedScoreCalculator.computeScore();
-    return new SeedAction(treeFrom, cellTo, score);
+    const scoreFronShadow = seedScoreCalculator.computeShadow();
+    return new SeedAction(treeFrom, cellTo, scoreFronShadow);
   }
 
   constructor(treeFrom: Tree, cellTo: Cell, score: number) {

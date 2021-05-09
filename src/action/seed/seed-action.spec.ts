@@ -16,7 +16,7 @@ describe("SeedAction", () => {
   };
   const tree_15_size_2 = {
     cellIndex: 15,
-    size: 0,
+    size: 2,
     isMine: true,
     isDormant: false,
   } as Tree;
@@ -31,11 +31,14 @@ describe("SeedAction", () => {
   let map: Map = { 15: cell_15, 12: cell_12 };
   describe("initFromString", () => {
     it("should initialize Seed action properly from string", () => {
-      let action = SeedAction.initFromString("SEED 15 12", map, trees);
+      let action = SeedAction.initFromString("SEED 15 12", map, trees, {
+        1: {},
+        2: {},
+      });
       expect(action.type).toBe("SEED");
       expect(action.treeFrom).toBe(tree_15_size_2);
       expect(action.cellTo).toBe(cell_12);
-      expect(action.score).toBe(0);
+      expect(action.score).toBe(1);
     });
   });
 

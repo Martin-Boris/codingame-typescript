@@ -23,7 +23,9 @@ const actionFactory = (
   const completeActions: CompleteAction[] = [];
   actions.forEach((action) => {
     if (action.includes("SEED")) {
-      seedActions.push(SeedAction.initFromString(action, map, trees));
+      seedActions.push(
+        SeedAction.initFromString(action, map, trees, shadowMapMultipleDay)
+      );
     }
     if (action.includes("GROW")) {
       growActions.push(

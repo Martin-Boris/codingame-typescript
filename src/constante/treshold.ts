@@ -1,4 +1,4 @@
-const SEED_TRESHOLD_DAY: number = 19;
+const SEED_TRESHOLD_DAY: number = 17;
 const COMPLETE_TRESHOLD_DAY: number = 20;
 const GROW_T1_TRESHOLD_DAY: number = 21;
 const GROW_SEED_TRESHOLD_DAY: number = 20;
