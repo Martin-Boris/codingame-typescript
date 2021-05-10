@@ -76,4 +76,19 @@ describe("CompleteScoreCalculator", () => {
     );
     expect(completeScoreCalculator.compute()).toBe(1);
   });
+
+  it("should compute score 0 in case shadowmap empty", () => {
+    const tree_size_3_cell_5: Tree = {
+      cellIndex: 5,
+      size: 3,
+      isMine: true,
+      isDormant: false,
+    } as Tree;
+    const shadowMap: ShadowMapMultipleDay = {};
+    const completeScoreCalculator = new CompleteScoreCalculator(
+      tree_size_3_cell_5,
+      shadowMap
+    );
+    expect(completeScoreCalculator.computeSunEfficiency()).toBe(0);
+  });
 });

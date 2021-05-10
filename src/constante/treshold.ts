@@ -2,7 +2,7 @@ const SEED_TRESHOLD_DAY: number = 17;
 const COMPLETE_TRESHOLD_DAY: number = 20;
 const GROW_T1_TRESHOLD_DAY: number = 21;
 const GROW_SEED_TRESHOLD_DAY: number = 20;
-const NBR_DAY_CYCLE_FOR_SHADOW_COMPUTE: number = 3;
+const NBR_DAY_CYCLE_FOR_SHADOW_COMPUTE: number = 4;
 const T2_TREE_TRESHOLD: number = 2;
 const T1_TREE_TRESHOLD: number = 1;
 

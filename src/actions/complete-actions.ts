@@ -17,10 +17,10 @@ export class CompleteActions implements Actions {
     }
     return this._actions
       .reduce((hightScoreAction, action) => {
-        console.error({
-          score: action.score,
-          action: action.getStringAction(),
-        });
+        // console.error({
+        //   score: action.score,
+        //   action: action.getStringAction(),
+        // });
         return action.score > hightScoreAction.score
           ? action
           : hightScoreAction;

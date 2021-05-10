@@ -15,6 +15,9 @@ export class CompleteScoreCalculator {
 
   public computeSunEfficiency(): number {
     const nbrDay = Object.keys(this.shadowMapMultipleDay).length;
+    if (nbrDay === 0) {
+      return 0;
+    }
     let nbrSunnyDay = nbrDay;
     Object.keys(this.shadowMapMultipleDay).forEach((day) => {
       const shadowMap = this.shadowMapMultipleDay[day];
