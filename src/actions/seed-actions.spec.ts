@@ -46,12 +46,6 @@ describe("SeedActions", () => {
       let action = actions.getBestAction(0);
       expect(action).toBe("");
     });
-    it("should return empty string in case SEED_TRESHOLD_DAY reached", () => {
-      let seed_15_12 = new SeedAction(tree_15_size_1, cell_12, 1);
-      const actions = new SeedActions([seed_15_12], []);
-      let action = actions.getBestAction(SEED_TRESHOLD_DAY + 1);
-      expect(action).toBe("");
-    });
     it("should choose action with best score", () => {
       let actionLowScore = new SeedAction(
         {} as Tree,

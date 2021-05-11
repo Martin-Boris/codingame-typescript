@@ -14,11 +14,7 @@ export class SeedActions implements Actions {
   }
 
   getBestAction(day: number): String {
-    if (
-      this._actions.length === 0 ||
-      this.isAlreadyASeed() ||
-      day > SEED_TRESHOLD_DAY
-    ) {
+    if (this._actions.length === 0 || this.isAlreadyASeed()) {
       return "";
     }
 
