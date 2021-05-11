@@ -15,6 +15,9 @@ export class CompleteActions implements Actions {
     if (this._actions.length === 0 || this.isTresholdUnreched()) {
       return "";
     }
+    this._actions.forEach((action) => {
+      console.error({ score: action.score, action: action.getStringAction() });
+    });
     return this._actions
       .reduce((hightScoreAction, action) => {
         return action.score > hightScoreAction.score

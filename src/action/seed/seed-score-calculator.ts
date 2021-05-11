@@ -50,8 +50,8 @@ export class SeedScoreCalculator {
     });
     return (
       (1 * (nbrSunnyDay / nbrDay) +
-        1 * (this.cellTo.richness / MAX_RICHNESS_VALUE)) /
-      2
+        0.1 * (this.cellTo.richness / MAX_RICHNESS_VALUE)) /
+      1.1
     );
   }
 

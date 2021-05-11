@@ -13,6 +13,11 @@ export class GrowActions implements Actions {
     if (this._actions.length === 0) {
       return "";
     }
+
+    this._actions.forEach((action) => {
+      console.error({ score: action.score, action: action.getStringAction() });
+    });
+
     let bestAction = this._actions.reduce(
       (hightScoreAction, action) =>
         action.score > hightScoreAction.score ? action : hightScoreAction,

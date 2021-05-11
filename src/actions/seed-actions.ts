@@ -1,7 +1,5 @@
 import { SeedAction } from "../action/seed/seed-action";
 import { Actions } from "./actions";
-import { SEED_TRESHOLD_DAY } from "../constante/treshold";
-import { Tree } from "../io/input";
 
 export class SeedActions implements Actions {
   private _actions: SeedAction[];
@@ -14,6 +12,10 @@ export class SeedActions implements Actions {
     if (this._actions.length === 0) {
       return "";
     }
+
+    this._actions.forEach((action) => {
+      console.error({ score: action.score, action: action.getStringAction() });
+    });
 
     const bestAction = this._actions.reduce(
       (bestAction, action) =>

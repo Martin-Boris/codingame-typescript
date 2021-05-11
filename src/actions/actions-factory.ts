@@ -33,7 +33,13 @@ const actionFactory = (
     }
     if (action.includes("COMPLETE")) {
       completeActions.push(
-        CompleteAction.initFromString(action, trees, shadowMapMultipleDay)
+        CompleteAction.initFromString(
+          action,
+          trees,
+          shadowMapMultipleDay,
+          day,
+          map
+        )
       );
     }
   });

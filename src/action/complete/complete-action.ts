@@ -1,4 +1,4 @@
-import { Tree } from "../../io/input";
+import { Map, Tree } from "../../io/input";
 import { ShadowMapMultipleDay } from "../../shadow/shadow-map";
 import { Action } from "../action";
 import { CompleteScoreCalculator } from "./complete-score-calculator";
@@ -11,14 +11,19 @@ export class CompleteAction implements Action {
   static initFromString(
     action: String,
     trees: Tree[],
-    shadowMapMultipleDay: ShadowMapMultipleDay
+    shadowMapMultipleDay: ShadowMapMultipleDay,
+    day: number,
+    map: Map
   ) {
     const tree: Tree = trees.find(
       (tree) => tree.cellIndex === parseInt(action.split(" ")[1])
     );
     const completeScoreCalculator = new CompleteScoreCalculator(
       tree,
-      shadowMapMultipleDay
+      shadowMapMultipleDay,
+      day,
+      trees,
+      map
     );
     return new CompleteAction(tree, completeScoreCalculator.compute());
   }

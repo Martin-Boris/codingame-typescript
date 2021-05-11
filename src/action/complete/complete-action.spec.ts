@@ -1,4 +1,4 @@
-import { Tree } from "../../io/input";
+import { Map, Tree } from "../../io/input";
 import { CompleteAction } from "./complete-action";
 
 describe("CompleteAction", () => {
@@ -10,12 +10,17 @@ describe("CompleteAction", () => {
   };
   let trees: Partial<Tree>[] = [tree_0];
   describe("initFromString", () => {
-    let action = CompleteAction.initFromString("COMPLETE 0", trees as Tree[], {
-      1: {},
-    });
+    let action = CompleteAction.initFromString(
+      "COMPLETE 0",
+      trees as Tree[],
+      {
+        1: {},
+      },
+      0,
+      {} as Map
+    );
     expect(action.type).toBe("COMPLETE");
     expect(action.tree).toBe(tree_0);
-    expect(action.score).toBe(0);
   });
 
   describe("getStringAction", () => {
