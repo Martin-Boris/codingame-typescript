@@ -5,6 +5,7 @@ const GROW_SEED_TRESHOLD_DAY: number = 20;
 const NBR_DAY_CYCLE_FOR_SHADOW_COMPUTE: number = 4;
 const T2_TREE_TRESHOLD: number = 2;
 const T1_TREE_TRESHOLD: number = 1;
+const MAX_RICHNESS_VALUE: number = 3;
 
 export {
   SEED_TRESHOLD_DAY,
@@ -14,6 +15,7 @@ export {
   NBR_DAY_CYCLE_FOR_SHADOW_COMPUTE,
   T2_TREE_TRESHOLD,
   T1_TREE_TRESHOLD,
+  MAX_RICHNESS_VALUE,
 };
 
 export class TresholdState {

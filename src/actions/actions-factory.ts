@@ -1,5 +1,4 @@
 import { Map, Tree } from "../io/input";
-import { Action } from "../action/action";
 import { CompleteAction } from "../action/complete/complete-action";
 import { GrowAction } from "../action/grow/grow-action";
 import { SeedAction } from "../action/seed/seed-action";
@@ -38,9 +37,8 @@ const actionFactory = (
       );
     }
   });
-  const mineTree = getMineTree(trees);
   return {
-    seedActions: new SeedActions(seedActions, trees),
+    seedActions: new SeedActions(seedActions),
     growActions: new GrowActions(growActions),
     completeActions: new CompleteActions(completeActions, tresholdState),
   };

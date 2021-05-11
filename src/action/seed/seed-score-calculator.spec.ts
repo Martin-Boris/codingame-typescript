@@ -1,5 +1,5 @@
-import { Tree } from "../../io/input";
-import { ShadowMapMultipleDay } from "../../shadow/shadow-map";
+import { Cell, Tree } from "../../io/input";
+import { ShadowMap, ShadowMapMultipleDay } from "../../shadow/shadow-map";
 import { SeedScoreCalculator } from "./seed-score-calculator";
 
 describe("SeedScoreCalculator", () => {
@@ -98,7 +98,7 @@ describe("SeedScoreCalculator", () => {
       );
       expect(action.computeShadow()).toBe(0);
     });
-    it("should compute score from shadowmap", () => {
+    it("should compute score from shadowmap and richness", () => {
       const shadowMap: ShadowMapMultipleDay = {
         3: { 12: { shadowLevel: 3 } },
         4: { 12: { shadowLevel: 3 } },
@@ -122,7 +122,23 @@ describe("SeedScoreCalculator", () => {
         [],
         shadowMap
       );
-      expect(action.computeShadow()).toBe(0.5);
+      expect(action.computeShadow()).toBe(0.75);
+    });
+
+    it("should return 0 in case there already is a seed", () => {
+      const tree_seed = {
+        cellIndex: 2,
+        size: 0,
+        isMine: true,
+        isDormant: false,
+      } as Tree;
+      let action = new SeedScoreCalculator(
+        {} as Tree,
+        {} as Cell,
+        [tree_seed],
+        {} as ShadowMap
+      );
+      expect(action.computeShadow()).toBe(0);
     });
   });
 });

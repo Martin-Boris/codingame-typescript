@@ -1,4 +1,5 @@
-import { SIZE_TIER_1 } from "../../constante/game-constante";
+import { SEED_SIZE_TIER, SIZE_TIER_1 } from "../../constante/game-constante";
+import { MAX_RICHNESS_VALUE } from "../../constante/treshold";
 import { Cell, Tree } from "../../io/input";
 import { ShadowMapMultipleDay } from "../../shadow/shadow-map";
 
@@ -34,7 +35,7 @@ export class SeedScoreCalculator {
   }
 
   public computeShadow(): number {
-    if (this.treeFrom.size <= SIZE_TIER_1) {
+    if (this.treeFrom.size <= SIZE_TIER_1 || this.isAlreadyASeed()) {
       return 0;
     }
     let days = [...Object.keys(this.shadowMapMultipleDay)];
@@ -47,6 +48,16 @@ export class SeedScoreCalculator {
         nbrSunnyDay--;
       }
     });
-    return nbrSunnyDay / nbrDay;
+    return (
+      (1 * (nbrSunnyDay / nbrDay) +
+        1 * (this.cellTo.richness / MAX_RICHNESS_VALUE)) /
+      2
+    );
+  }
+
+  private isAlreadyASeed(): boolean {
+    return this.trees.some(
+      (tree) => tree.size === SEED_SIZE_TIER && tree.isMine
+    );
   }
 }
