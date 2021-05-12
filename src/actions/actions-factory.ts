@@ -15,7 +15,8 @@ const actionFactory = (
   trees: Tree[],
   tresholdState: TresholdState,
   shadowMapMultipleDay: ShadowMapMultipleDay,
-  day: number
+  day: number,
+  nutrients: number
 ): { seedActions: Actions; growActions: Actions; completeActions: Actions } => {
   const seedActions: SeedAction[] = [];
   const growActions: GrowAction[] = [];
@@ -38,7 +39,8 @@ const actionFactory = (
           trees,
           shadowMapMultipleDay,
           day,
-          map
+          map,
+          nutrients
         )
       );
     }
@@ -46,7 +48,11 @@ const actionFactory = (
   return {
     seedActions: new SeedActions(seedActions),
     growActions: new GrowActions(growActions),
-    completeActions: new CompleteActions(completeActions, tresholdState),
+    completeActions: new CompleteActions(
+      completeActions,
+      tresholdState,
+      nutrients
+    ),
   };
 };
 

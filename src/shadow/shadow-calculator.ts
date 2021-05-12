@@ -23,9 +23,8 @@ export class ShadowCalculator {
           shadowLevel:
             previousShadowLevel < tree.size ? tree.size : previousShadowLevel,
         };
-        shadowProjectionIndex = this.map[shadowProjectionIndex].neighborIndexes[
-          sunIndex
-        ];
+        shadowProjectionIndex =
+          this.map[shadowProjectionIndex].neighborIndexes[sunIndex];
         i++;
       }
     });
@@ -37,8 +36,8 @@ export class ShadowCalculator {
     nbrOfDayCycle: number
   ): ShadowMapMultipleDay {
     let multipleDayShadowMap: ShadowMapMultipleDay = {};
-    const endDay = startDay + nbrOfDayCycle - 1;
-    while (startDay <= endDay && startDay <= 23) {
+    const endDay = startDay + nbrOfDayCycle;
+    while (startDay < endDay && startDay <= 23) {
       multipleDayShadowMap[startDay] = this.compute(startDay);
       startDay++;
     }

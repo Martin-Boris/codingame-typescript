@@ -29,7 +29,8 @@ while (true) {
     gameState.trees,
     tresholdState,
     shadowMap,
-    gameState.day
+    gameState.day,
+    gameState.nutrients
   );
 
   const actionController = new ActionController(

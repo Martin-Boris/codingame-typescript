@@ -9,19 +9,22 @@ export class CompleteScoreCalculator {
   private day: number;
   private trees: Tree[];
   private map: Map;
+  private nutrients: number;
 
   constructor(
     treeCompletable: Tree,
     shadowMapMultipleDay: ShadowMapMultipleDay,
     day: number,
     trees: Tree[],
-    map: Map
+    map: Map,
+    nutrients: number
   ) {
     this.tree = treeCompletable;
     this.shadowMapMultipleDay = shadowMapMultipleDay;
     this.day = day;
     this.trees = trees;
     this.map = map;
+    this.nutrients = nutrients;
   }
 
   public computeSunEfficiency(): number {
@@ -82,12 +85,16 @@ export class CompleteScoreCalculator {
   }
 
   public compute(): number {
-    return (
-      1 * (1 - this.computeSunEfficiency())
-      //+
-      //1 * (1 - this.computeMultipleShadowDeny(true))
-      //+
-      // (0.5 * this.computeMultipleShadowDeny(false)) / 2
-    );
+    return this.isWorth()
+      ? 1 * (1 - this.computeSunEfficiency())
+      : //+
+        //1 * (1 - this.computeMultipleShadowDeny(true))
+        //+
+        // (0.5 * this.computeMultipleShadowDeny(false)) / 2
+        -1;
+  }
+
+  private isWorth(): boolean {
+    return this.map[this.tree.cellIndex].richness + this.nutrients - 1 > 0;
   }
 }

@@ -24,9 +24,10 @@ export class SeedAction implements Action {
       treeFrom,
       cellTo,
       trees,
-      shadowMapMultipleDay
+      shadowMapMultipleDay,
+      map
     );
-    const score = seedScoreCalculator.computeScore();
+    const score = seedScoreCalculator.computeNeighborIndexes();
     const scoreFronShadow = seedScoreCalculator.computeShadow();
     return new SeedAction(treeFrom, cellTo, scoreFronShadow);
   }

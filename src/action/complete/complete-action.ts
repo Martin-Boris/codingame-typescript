@@ -13,7 +13,8 @@ export class CompleteAction implements Action {
     trees: Tree[],
     shadowMapMultipleDay: ShadowMapMultipleDay,
     day: number,
-    map: Map
+    map: Map,
+    nutrient: number
   ) {
     const tree: Tree = trees.find(
       (tree) => tree.cellIndex === parseInt(action.split(" ")[1])
@@ -23,7 +24,8 @@ export class CompleteAction implements Action {
       shadowMapMultipleDay,
       day,
       trees,
-      map
+      map,
+      nutrient
     );
     return new CompleteAction(tree, completeScoreCalculator.compute());
   }

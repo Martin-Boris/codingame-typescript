@@ -3,10 +3,13 @@ import { ShadowMapMultipleDay } from "../../shadow/shadow-map";
 import { GrowScoreCalculator } from "./grow-score-calculator";
 
 describe("GrowScoreCalculator", () => {
-  it("should compute score (depend on nimber of sunny day)", () => {
+  it("should compute score", () => {
     const tree_size_2_cell_5: Tree = {
       cellIndex: 5,
       size: 2,
+      cell: {
+        richness: 3,
+      },
       isMine: true,
       isDormant: false,
     } as Tree;

@@ -13,10 +13,6 @@ export class SeedActions implements Actions {
       return "";
     }
 
-    this._actions.forEach((action) => {
-      console.error({ score: action.score, action: action.getStringAction() });
-    });
-
     const bestAction = this._actions.reduce(
       (bestAction, action) =>
         action.score > bestAction.score ? action : bestAction,

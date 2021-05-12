@@ -27,7 +27,7 @@ describe("SeedScoreCalculator", () => {
         [],
         shadowMap
       );
-      expect(action.computeScore()).toBe(0);
+      expect(action.computeNeighborIndexes()).toBe(0);
     });
     it("should compute 5 score when seed position near another tree", () => {
       const tree_15_size_2 = {
@@ -54,7 +54,7 @@ describe("SeedScoreCalculator", () => {
         [tree_2_size_1],
         shadowMap
       );
-      expect(action.computeScore()).toBe(5);
+      expect(action.computeNeighborIndexes()).toBe(5);
     });
     it("should compute 6 score when seed position near any other tree", () => {
       const tree_15_size_2 = {
@@ -75,7 +75,7 @@ describe("SeedScoreCalculator", () => {
         [],
         shadowMap
       );
-      expect(action.computeScore()).toBe(6);
+      expect(action.computeNeighborIndexes()).toBe(6);
     });
   });
   describe("computeShadow", () => {
