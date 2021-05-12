@@ -83,9 +83,11 @@ export class CompleteScoreCalculator {
 
   public compute(): number {
     return (
-      1 * (1 - this.computeSunEfficiency()) +
-      0.5 * (1 - this.computeMultipleShadowDeny(true)) +
-      (0.5 * this.computeMultipleShadowDeny(false)) / 2
+      1 * (1 - this.computeSunEfficiency())
+      //+
+      //1 * (1 - this.computeMultipleShadowDeny(true))
+      //+
+      // (0.5 * this.computeMultipleShadowDeny(false)) / 2
     );
   }
 }

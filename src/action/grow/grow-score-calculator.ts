@@ -1,3 +1,4 @@
+import { MAX_RICHNESS_VALUE } from "../../constante/treshold";
 import { Tree } from "../../io/input";
 import { ShadowMapMultipleDay } from "../../shadow/shadow-map";
 
@@ -22,6 +23,10 @@ export class GrowScoreCalculator {
         nbrSunnyDay--;
       }
     });
-    return nbrSunnyDay / nbrDay;
+    return (
+      (nbrSunnyDay / nbrDay +
+        0.1 * (this.tree.cell.richness / MAX_RICHNESS_VALUE)) /
+      1.1
+    );
   }
 }
