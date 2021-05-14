@@ -23,14 +23,18 @@ export class GrowAction implements Action {
     gameState: GameState,
     map: Map
   ): number {
+    if (this.tree.size === 0 && gameState.trees.getTreesNumberOfTier(1) >= 3) {
+      return 0;
+    }
     if (gameState.day >= 20 && (this.tree.size === 2 || this.tree.size === 1)) {
       return 0;
     }
     return (
       (1 * this.tree.computeSunnyScore(consecutiveShadowMap) +
         1 * this.tree.computePositionScore(gameState.trees, map) +
-        0.1 * this.tree.computeRichnessScore()) /
-      2.1
+        0.1 * this.tree.computeRichnessScore() +
+        (0.5 * this.tree.size) / 3) /
+      2.6
     );
   }
 

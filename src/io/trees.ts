@@ -58,4 +58,8 @@ export class Trees {
   public isAlreadyASeed(): boolean {
     return this.trees.some((tree) => tree.isMine && tree.size === 0);
   }
+
+  public getTreesNumberOfTier(tier: number): number {
+    return this.trees.filter((tree) => tree.size === tier).length;
+  }
 }
