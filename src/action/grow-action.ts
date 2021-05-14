@@ -26,7 +26,18 @@ export class GrowAction implements Action {
     if (this.tree.size === 0 && gameState.trees.getTreesNumberOfTier(1) >= 3) {
       return 0;
     }
-    if (gameState.day >= 20 && (this.tree.size === 2 || this.tree.size === 1)) {
+    if (gameState.day >= 20 && this.tree.size === 1) {
+      return 0;
+    }
+    if (gameState.day >= 21 && this.tree.size === 2) {
+      return 0;
+    }
+    if (
+      gameState.day < 23 &&
+      this.tree.size === 2 &&
+      gameState.nutrients + this.tree.cell.getPointEarn() <
+        (7 + gameState.trees.getTreesNumberOfTier(3) + 4) / 3
+    ) {
       return 0;
     }
     return (

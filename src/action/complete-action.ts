@@ -66,7 +66,7 @@ export class CompleteAction implements Action {
     return (
       Math.floor((gameState.sun - 4) / 3) +
         gameState.nutrients +
-        (this.tree.cell.richness - 1) <=
+        this.tree.cell.getPointEarn() <=
       Math.floor(
         (gameState.sun +
           this.tree.getSunProductionUntilTheEnd(consecutiveShadowMap)) /
