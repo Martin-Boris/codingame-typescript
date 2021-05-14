@@ -1,5 +1,4 @@
-import { SeedActions } from "../actions/seed-actions";
-import { Map } from "../io/input";
+import { GameState, Map } from "../io/input";
 import { Tree } from "../io/tree";
 import { Trees } from "../io/trees";
 import { ConsecutiveShadowMap } from "../shadow/consecutive-shadow-map";
@@ -30,15 +29,19 @@ export class SeedAction implements Action {
 
   public computeScore(
     consecutiveShadowMap: ConsecutiveShadowMap,
-    trees: Trees,
+    gameState: GameState,
     map: Map
   ): number {
-    if (trees.isAlreadyASeed()) {
+    if (
+      gameState.trees.isAlreadyASeed() ||
+      this.treeFrom.size === 1 ||
+      gameState.day > 16
+    ) {
       return 0;
     }
     return (
       (1 * this.seed.computeSunnyScore(consecutiveShadowMap) +
-        1 * this.seed.computePositionScore(trees, map) +
+        1 * this.seed.computePositionScore(gameState.trees, map) +
         0.1 * this.seed.computeRichnessScore()) /
       2.1
     );

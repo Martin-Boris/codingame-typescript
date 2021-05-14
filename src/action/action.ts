@@ -1,4 +1,4 @@
-import { Map } from "../io/input";
+import { GameState, Map } from "../io/input";
 import { Trees } from "../io/trees";
 import { ConsecutiveShadowMap } from "../shadow/consecutive-shadow-map";
 
@@ -7,7 +7,7 @@ export interface Action {
   toString(): string;
   computeScore(
     consecutiveShadowMap: ConsecutiveShadowMap,
-    trees: Trees,
+    gameState: GameState,
     map: Map
   ): number;
 }

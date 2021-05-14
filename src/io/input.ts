@@ -22,6 +22,7 @@ export interface GameState {
   opponentIsWaiting: boolean;
   trees: Trees;
   possibleMoves: string[];
+  lastDayComplete: number;
 }
 
 // export interface Tree {

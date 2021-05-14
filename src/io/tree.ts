@@ -33,13 +33,19 @@ export class Tree {
         ponderateAlingedAllies += 1.5;
       }
       const secondLayerNeighCellIndex =
-        map[neighborIndexe].neighborIndexes[indexDirection];
-      if (trees.isTreeWithIndex(secondLayerNeighCellIndex, true)) {
+        map[neighborIndexe]?.neighborIndexes[indexDirection];
+      if (
+        secondLayerNeighCellIndex &&
+        trees.isTreeWithIndex(secondLayerNeighCellIndex, true)
+      ) {
         ponderateAlingedAllies += 1.25;
       }
       const thirdLayerNeighCellIndex =
-        map[secondLayerNeighCellIndex].neighborIndexes[indexDirection];
-      if (trees.isTreeWithIndex(thirdLayerNeighCellIndex, true)) {
+        map[secondLayerNeighCellIndex]?.neighborIndexes[indexDirection];
+      if (
+        thirdLayerNeighCellIndex &&
+        trees.isTreeWithIndex(thirdLayerNeighCellIndex, true)
+      ) {
         ponderateAlingedAllies += 1;
       }
     });

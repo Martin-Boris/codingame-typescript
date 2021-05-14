@@ -1,3 +1,4 @@
+import { GameState } from "../io/input";
 import { Tree } from "../io/tree";
 import { Trees } from "../io/trees";
 import { CELL_0, CELL_1, MOCKED_MAP } from "../utils/test-data";
@@ -23,6 +24,10 @@ describe("CompleteAction", () => {
 
   describe("computeScore", () => {
     it("should do the correct math calcul", () => {
+      const gameState: GameState = {
+        day: 15,
+        trees: new Trees(),
+      } as GameState;
       const tree_cell_1_size_3 = new Tree(1, CELL_1, 3, true, false);
       tree_cell_1_size_3.computePositionScore = jest
         .fn()
@@ -34,9 +39,29 @@ describe("CompleteAction", () => {
         .fn()
         .mockImplementation(() => 1);
       const action = new CompleteAction(tree_cell_1_size_3);
-      expect(action.computeScore(undefined, new Trees(), MOCKED_MAP)).toBe(
+      expect(action.computeScore(undefined, gameState, MOCKED_MAP)).toBe(
         0.42857142857142855
       );
+    });
+    it("should return 0 in case before J14 (day13)", () => {
+      const gameState: GameState = {
+        day: 0,
+        trees: new Trees(),
+      } as GameState;
+      const tree_cell_1_size_3 = new Tree(1, CELL_1, 3, true, false);
+      const action = new CompleteAction(tree_cell_1_size_3);
+      expect(action.computeScore(undefined, gameState, MOCKED_MAP)).toBe(0);
+    });
+
+    it("should return 0 in case after J14 (day13) but already complete during the day", () => {
+      const gameState: GameState = {
+        day: 13,
+        trees: new Trees(),
+        lastDayComplete: 13,
+      } as GameState;
+      const tree_cell_1_size_3 = new Tree(1, CELL_1, 3, true, false);
+      const action = new CompleteAction(tree_cell_1_size_3);
+      expect(action.computeScore(undefined, gameState, MOCKED_MAP)).toBe(0);
     });
   });
 });

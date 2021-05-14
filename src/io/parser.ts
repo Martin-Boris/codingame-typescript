@@ -30,7 +30,7 @@ export function parseMap(): Map {
   return map;
 }
 
-export function parseGameState(map: Map) {
+export function parseGameState(map: Map, lastDayComplete: number) {
   const day: number = parseInt(readline()); // the game lasts 24 days: 0-23
   const nutrients: number = parseInt(readline()); // the base score you gain from the next COMPLETE action
   var inputs: string[] = readline().split(" ");
@@ -51,6 +51,7 @@ export function parseGameState(map: Map) {
     opponentIsWaiting,
     trees: undefined,
     possibleMoves: [],
+    lastDayComplete: lastDayComplete,
   };
 
   const numberOfTrees: number = parseInt(readline()); // the current amount of trees

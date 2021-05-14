@@ -3,9 +3,10 @@ import { Cell } from "./io/cell";
 import { parseGameState, parseMap } from "./io/parser";
 
 const map = parseMap();
+let lastDayComplete = undefined;
 
 while (true) {
-  const gameState = parseGameState(map);
+  const gameState = parseGameState(map, lastDayComplete);
 
   // Debug code
   // console.error(gameState.possibleMoves);
@@ -13,18 +14,21 @@ while (true) {
   // Possible actions: GROW cellIdx | SEED sourceIdx targetIdx | COMPLETE cellIdx | WAIT <message>)
   // console.log('WAIT');
   //console.log(gameState.possibleMoves[0]);
-  const actions = initActions();
-  const bestCompleteAction = actions.completeActions.highScoreAction();
-  const bestGrowAction = actions.growActions.highScoreAction();
-  const bestSeedAction = actions.seedActions.highScoreAction();
+  const actions = initActions(gameState, map);
+  const bestCompleteAction = actions.completeActions.bestAction(gameState, map);
+  const bestGrowAction = actions.growActions.bestAction(gameState, map);
+  const bestSeedAction = actions.seedActions.bestAction(gameState, map);
+  console.error(bestCompleteAction);
+  console.error(bestGrowAction);
+  console.error(bestSeedAction);
   if (bestCompleteAction) {
-    console.log(bestCompleteAction.toString());
+    lastDayComplete = gameState.day;
+    console.log(bestCompleteAction);
+  } else if (bestSeedAction) {
+    console.log(bestSeedAction);
+  } else if (bestGrowAction) {
+    console.log(bestGrowAction);
+  } else {
+    console.log("WAIT");
   }
-  if (bestSeedAction) {
-    console.log(bestSeedAction.toString());
-  }
-  if (bestGrowAction) {
-    console.log(bestGrowAction.toString());
-  }
-  console.log("WAIT");
 }

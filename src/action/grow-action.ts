@@ -1,4 +1,4 @@
-import { Map } from "../io/input";
+import { GameState, Map } from "../io/input";
 import { Tree } from "../io/tree";
 import { Trees } from "../io/trees";
 import { ConsecutiveShadowMap } from "../shadow/consecutive-shadow-map";
@@ -20,12 +20,15 @@ export class GrowAction implements Action {
   }
   computeScore(
     consecutiveShadowMap: ConsecutiveShadowMap,
-    trees: Trees,
+    gameState: GameState,
     map: Map
   ): number {
+    if (gameState.day >= 20 && (this.tree.size === 2 || this.tree.size === 1)) {
+      return 0;
+    }
     return (
       (1 * this.tree.computeSunnyScore(consecutiveShadowMap) +
-        1 * this.tree.computePositionScore(trees, map) +
+        1 * this.tree.computePositionScore(gameState.trees, map) +
         0.1 * this.tree.computeRichnessScore()) /
       2.1
     );
