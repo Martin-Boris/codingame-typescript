@@ -23,6 +23,18 @@ export class CompleteAction implements Action {
     gameState: GameState,
     map: Map
   ): number {
+    if (
+      gameState.day >= 23 &&
+      this.computeCompleteNotWorthForTheDay(gameState)
+    ) {
+      return 0;
+    }
+    if (
+      gameState.day >= 20 &&
+      this.computeCompleteNotWorthUntilTheEnd(gameState, consecutiveShadowMap)
+    ) {
+      return 0;
+    }
     if (gameState.day < 13 || gameState.lastDayComplete === gameState.day) {
       return 0;
     }
@@ -36,5 +48,30 @@ export class CompleteAction implements Action {
 
   toString(): string {
     return this.type + " " + this.tree.cell.index;
+  }
+
+  private computeCompleteNotWorthForTheDay(gameState: GameState): boolean {
+    return (
+      Math.floor((gameState.sun - 4) / 3) +
+        gameState.nutrients +
+        (this.tree.cell.richness - 1) <=
+      Math.floor(gameState.sun / 3)
+    );
+  }
+
+  private computeCompleteNotWorthUntilTheEnd(
+    gameState: GameState,
+    consecutiveShadowMap: ConsecutiveShadowMap
+  ): boolean {
+    return (
+      Math.floor((gameState.sun - 4) / 3) +
+        gameState.nutrients +
+        (this.tree.cell.richness - 1) <=
+      Math.floor(
+        (gameState.sun +
+          this.tree.getSunProductionUntilTheEnd(consecutiveShadowMap)) /
+          3
+      )
+    );
   }
 }

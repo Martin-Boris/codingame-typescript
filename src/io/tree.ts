@@ -80,6 +80,22 @@ export class Tree {
     return numberOfSunnyDay / numberOfDay;
   }
 
+  public getSunProductionUntilTheEnd(
+    consecutiveShadowsMap: ConsecutiveShadowMap
+  ): number {
+    const day = Object.keys(consecutiveShadowsMap);
+    let sunProduction = 0;
+    day.forEach((day: string) => {
+      if (
+        parseInt(day) <= 23 &&
+        !consecutiveShadowsMap[day].isShadowed(this.cell.index, this.size)
+      ) {
+        sunProduction += this.size;
+      }
+    });
+    return sunProduction;
+  }
+
   public computeRichnessScore(): number {
     return this.cell.computeRichnessScore();
   }
