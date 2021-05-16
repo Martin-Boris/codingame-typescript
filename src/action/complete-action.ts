@@ -23,11 +23,6 @@ export class CompleteAction implements Action {
     gameState: GameState,
     map: Map
   ): number {
-    console.error({
-      sunnyScore: 1 - this.tree.computeSunnyScore(consecutiveShadowMap),
-      positionScore: 1 - this.tree.computePositionScore(gameState.trees, map),
-      action: this.toString(),
-    });
     if (
       gameState.day >= 23 &&
       this.computeCompleteNotWorthForTheDay(gameState)
@@ -59,7 +54,7 @@ export class CompleteAction implements Action {
     return (
       Math.floor((gameState.sun - 4) / 3) +
         gameState.nutrients +
-        (this.tree.cell.richness - 1) <=
+        this.tree.cell.getPointEarn() <=
       Math.floor(gameState.sun / 3)
     );
   }

@@ -78,6 +78,9 @@ export class Tree {
     consecutiveShadowsMap: ConsecutiveShadowMap
   ): number {
     let numberOfDay = Object.keys(consecutiveShadowsMap).length;
+    if (numberOfDay === 0) {
+      return 0;
+    }
     let numberOfSunnyDay = numberOfDay;
     Object.values(consecutiveShadowsMap).forEach((shadowsMap: ShadowsMap) => {
       if (shadowsMap.isShadowed(this.cell.index, this.size)) {

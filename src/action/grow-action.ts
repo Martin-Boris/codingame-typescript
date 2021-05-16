@@ -23,10 +23,25 @@ export class GrowAction implements Action {
     gameState: GameState,
     map: Map
   ): number {
-    if (this.tree.size === 0 && gameState.trees.getTreesNumberOfTier(1) >= 3) {
+    if (
+      this.tree.size === 0 &&
+      gameState.trees.getTreesNumberOfTier(1) >= 3 &&
+      gameState.day < 19
+    ) {
       return 0;
     }
-    if (gameState.day >= 20 && this.tree.size === 1) {
+    if (
+      gameState.day >= 19 &&
+      this.tree.size === 0 &&
+      this.growActionNotWorth(gameState, consecutiveShadowMap)
+    ) {
+      return 0;
+    }
+    if (
+      gameState.day >= 20 &&
+      this.tree.size === 1 &&
+      this.growActionNotWorth(gameState, consecutiveShadowMap)
+    ) {
       return 0;
     }
     if (gameState.day >= 23) {
@@ -51,5 +66,22 @@ export class GrowAction implements Action {
 
   toString(): string {
     return this.type + " " + this.tree.cell.index;
+  }
+
+  private growActionNotWorth(
+    gameState: GameState,
+    consecutiveShadowMap: ConsecutiveShadowMap
+  ): boolean {
+    let treeAfterGrow = new Tree(
+      this.tree.cell.index,
+      this.tree.cell,
+      this.tree.size + 1,
+      this.tree.isMine,
+      this.tree.isDormant
+    );
+    return (
+      gameState.trees.growCost(treeAfterGrow.size) >
+      treeAfterGrow.getSunProductionUntilTheEnd(consecutiveShadowMap)
+    );
   }
 }

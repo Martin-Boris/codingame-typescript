@@ -32,11 +32,7 @@ export class SeedAction implements Action {
     gameState: GameState,
     map: Map
   ): number {
-    if (
-      gameState.trees.isAlreadyASeed() ||
-      this.treeFrom.size === 1 ||
-      gameState.day > 16
-    ) {
+    if (gameState.trees.isAlreadyASeed() || this.treeFrom.size === 1) {
       return 0;
     }
     return (

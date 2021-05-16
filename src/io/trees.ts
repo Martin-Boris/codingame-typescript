@@ -60,6 +60,18 @@ export class Trees {
   }
 
   public getTreesNumberOfTier(tier: number): number {
-    return this.trees.filter((tree) => tree.size === tier).length;
+    return this.trees.filter((tree) => tree.size === tier && tree.isMine)
+      .length;
+  }
+
+  public growCost(tierToGrow: number) {
+    switch (tierToGrow) {
+      case 1:
+        return 1 + this.getTreesNumberOfTier(1);
+      case 2:
+        return 3 + this.getTreesNumberOfTier(2);
+      case 3:
+        return 7 + this.getTreesNumberOfTier(3);
+    }
   }
 }
