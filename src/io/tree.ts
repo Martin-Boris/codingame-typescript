@@ -27,10 +27,13 @@ export class Tree {
 
   // near 1 ==> good position, near 0 ==> bad position
   public computePositionScore(trees: Trees, map: Map): number {
+    let denominator = 18.75;
     let ponderateAlingedAllies = 0;
     this.cell.neighborIndexes.forEach((neighborIndexe, indexDirection) => {
       if (trees.isTreeWithIndex(neighborIndexe, true)) {
-        ponderateAlingedAllies += 1.5;
+        const sizePonderation = trees.getTreeAt(neighborIndexe).size;
+        ponderateAlingedAllies += 1.5 * sizePonderation;
+        denominator += sizePonderation;
       }
       const secondLayerNeighCellIndex =
         map[neighborIndexe]?.neighborIndexes[indexDirection];
@@ -38,7 +41,9 @@ export class Tree {
         secondLayerNeighCellIndex &&
         trees.isTreeWithIndex(secondLayerNeighCellIndex, true)
       ) {
-        ponderateAlingedAllies += 1.25;
+        const sizePonderation = trees.getTreeAt(secondLayerNeighCellIndex).size;
+        ponderateAlingedAllies += 1.25 * sizePonderation;
+        denominator += sizePonderation;
       }
       const thirdLayerNeighCellIndex =
         map[secondLayerNeighCellIndex]?.neighborIndexes[indexDirection];
@@ -46,10 +51,12 @@ export class Tree {
         thirdLayerNeighCellIndex &&
         trees.isTreeWithIndex(thirdLayerNeighCellIndex, true)
       ) {
-        ponderateAlingedAllies += 1;
+        const sizePonderation = trees.getTreeAt(thirdLayerNeighCellIndex).size;
+        ponderateAlingedAllies += 1 * sizePonderation;
+        denominator += sizePonderation;
       }
     });
-    return 1 - ponderateAlingedAllies / 18.75;
+    return 1 - ponderateAlingedAllies / denominator;
   }
 
   public computeSadow(day: number, map: Map): ShadowsMap {

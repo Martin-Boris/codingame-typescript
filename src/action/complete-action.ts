@@ -23,6 +23,11 @@ export class CompleteAction implements Action {
     gameState: GameState,
     map: Map
   ): number {
+    console.error({
+      sunnyScore: 1 - this.tree.computeSunnyScore(consecutiveShadowMap),
+      positionScore: 1 - this.tree.computePositionScore(gameState.trees, map),
+      action: this.toString(),
+    });
     if (
       gameState.day >= 23 &&
       this.computeCompleteNotWorthForTheDay(gameState)
@@ -35,7 +40,7 @@ export class CompleteAction implements Action {
     ) {
       return 0;
     }
-    if (gameState.day < 13 || gameState.lastDayComplete === gameState.day) {
+    if (gameState.day < 12 || gameState.lastDayComplete === gameState.day) {
       return 0;
     }
     return (
