@@ -29,7 +29,7 @@ export class GrowAction implements Action {
     if (gameState.day >= 20 && this.tree.size === 1) {
       return 0;
     }
-    if (gameState.day >= 21 && this.tree.size === 2) {
+    if (gameState.day >= 23) {
       return 0;
     }
     if (
