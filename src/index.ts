@@ -18,9 +18,6 @@ while (true) {
   const bestCompleteAction = actions.completeActions.bestAction(gameState, map);
   const bestGrowAction = actions.growActions.bestAction(gameState, map);
   const bestSeedAction = actions.seedActions.bestAction(gameState, map);
-  console.error(bestCompleteAction);
-  console.error(bestGrowAction);
-  console.error(bestSeedAction);
   if (bestCompleteAction) {
     lastDayComplete = gameState.day;
     console.log(bestCompleteAction);

@@ -55,8 +55,15 @@ export class GrowAction implements Action {
     ) {
       return 0;
     }
+    let treeAfterGrow = new Tree(
+      this.tree.cell.index,
+      this.tree.cell,
+      this.tree.size + 1,
+      this.tree.isMine,
+      this.tree.isDormant
+    );
     return (
-      (1 * this.tree.computeSunnyScore(consecutiveShadowMap) +
+      (1 * treeAfterGrow.computeSunnyScore(consecutiveShadowMap) +
         1 * this.tree.computePositionScore(gameState.trees, map) +
         0.1 * this.tree.computeRichnessScore() +
         (0.5 * this.tree.size) / 3) /
