@@ -9,19 +9,18 @@ export class Board {
   private monsters: Monsters;
 
   constructor(
-    health: number,
-    mana: number,
+    allyBase: Base,
     allyHeros: Array<Hero>,
     monsters: Array<Monster>
   ) {
-    this.allyBase = new Base(0, 0, health, mana);
+    this.allyBase = allyBase;
     this.allyHeros = allyHeros;
     this.monsters = new Monsters(monsters);
   }
 
   public triggerHeroAction(): Array<String> {
     if (!this.monsters.isThreatningMonsters()) {
-      return ["MOVE 6000 1000", "MOVE 5000 3000", "MOVE 2500 5000"];
+      return this.allyBase.getDefensivePositionAction();
     }
     const threatensMonster = this.monsters.findNearestThreatens();
     const action =

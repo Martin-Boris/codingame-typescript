@@ -29,7 +29,7 @@ export class Monster {
   }
 
   public isFocusingAlly(): boolean {
-    return this.threatFor === 1;
+    return this.threatFor === 1 && this.nearBase === 1;
   }
 
   public getX(): number {

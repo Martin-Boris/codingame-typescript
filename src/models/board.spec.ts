@@ -1,3 +1,4 @@
+import { Base } from "./base";
 import { Board } from "./board";
 import { Hero } from "./entities/hero";
 import { Monster } from "./entities/monster";
@@ -31,7 +32,7 @@ describe("Board unit Test", () => {
     );
     const monsters = [monsterWithoutTarget, monsterTargetingEnemy];
 
-    const board = new Board(100, 100, allyHero, monsters);
+    const board = new Board(new Base(0, 0, 100, 100), allyHero, monsters);
     const actions = board.triggerHeroAction();
     expect(actions[0]).toBe("MOVE 6000 1000");
     expect(actions[1]).toBe("MOVE 5000 3000");
@@ -50,7 +51,7 @@ describe("Board unit Test", () => {
       2
     );
     const monsters = [monsterTargetingAlly, monsterTargetingEnemy];
-    const board = new Board(100, 100, allyHero, monsters);
+    const board = new Board(new Base(0, 0, 100, 100), allyHero, monsters);
     const actions = board.triggerHeroAction();
     expect(actions[0]).toBe("MOVE 500 5000");
     expect(actions[1]).toBe("MOVE 500 5000");
