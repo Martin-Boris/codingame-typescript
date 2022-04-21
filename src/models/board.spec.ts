@@ -33,9 +33,9 @@ describe("Board unit Test", () => {
 
     const board = new Board(100, 100, allyHero, monsters);
     const actions = board.triggerHeroAction();
-    expect(actions[0]).toBe("WAIT");
-    expect(actions[1]).toBe("WAIT");
-    expect(actions[2]).toBe("WAIT");
+    expect(actions[0]).toBe("MOVE 6000 1000");
+    expect(actions[1]).toBe("MOVE 5000 3000");
+    expect(actions[2]).toBe("MOVE 2500 5000");
   });
   it("should return action to focus first attacker monster", () => {
     const monsterTargetingAlly = new Monster(1, 500, 5000, 30, 0, -400, 1, 1);

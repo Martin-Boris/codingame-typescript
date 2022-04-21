@@ -21,7 +21,7 @@ export class Board {
 
   public triggerHeroAction(): Array<String> {
     if (!this.monsters.isThreatningMonsters()) {
-      return ["WAIT", "WAIT", "WAIT"];
+      return ["MOVE 6000 1000", "MOVE 5000 3000", "MOVE 2500 5000"];
     }
     const threatensMonster = this.monsters.findNearestThreatens();
     const action =
