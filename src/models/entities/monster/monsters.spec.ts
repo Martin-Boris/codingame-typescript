@@ -1,9 +1,9 @@
-import { Base } from "../base";
+import { Base } from "../../base";
 import { Monster } from "./monster";
 import { Monsters } from "./monsters";
 
 describe("Monsters unit test", () => {
-  it("isThreatningMonsters: should return true if there is at least one monster threatning the ally base", () => {
+  it("isImmediatThreat: should return true if there is at least one monster threatning the ally base", () => {
     const monsterThreatningAllyBase = new Monster(
       1,
       12000,
@@ -15,9 +15,9 @@ describe("Monsters unit test", () => {
       1
     );
     const monsters = new Monsters([monsterThreatningAllyBase]);
-    expect(monsters.isThreatningMonsters()).toBeTruthy();
+    expect(monsters.isImmediatThreat()).toBeTruthy();
   });
-  it("isThreatningMonsters: should return false if there is no one monster threatning the ally base", () => {
+  it("isImmediatThreat: should return false if there is no one monster threatning the ally base", () => {
     const monsterThreatningEnemyBase = new Monster(
       1,
       12000,
@@ -42,7 +42,7 @@ describe("Monsters unit test", () => {
       monsterThreatningEnemyBase,
       monsterWithoutTarget,
     ]);
-    expect(monsters.isThreatningMonsters()).toBeFalsy();
+    expect(monsters.isImmediatThreat()).toBeFalsy();
   });
 
   it("findNearestThreatens: should return nearest monster threatning the ally base", () => {
@@ -71,7 +71,7 @@ describe("Monsters unit test", () => {
       nearestMonsterThreatningAllyBase,
     ]);
     const base: Base = new Base(0, 0, 100, 100);
-    expect(monsters.findNearestThreatens(base)).toBe(
+    expect(monsters.findNearestImmediatThreat(base)).toBe(
       nearestMonsterThreatningAllyBase
     );
   });

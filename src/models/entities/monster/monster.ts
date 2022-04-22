@@ -1,6 +1,7 @@
-import { Base } from "../base";
+import { Base } from "../../base";
+import { Entity } from "../entity";
 
-export class Monster {
+export class Monster implements Entity {
   private id: number;
   private x: number;
   private y: number;
@@ -33,6 +34,10 @@ export class Monster {
 
   public isFocusingAlly(): boolean {
     return this.threatFor === 1 && this.nearBase === 1;
+  }
+
+  public isFuturTreat(): boolean {
+    return this.nearBase === 1;
   }
 
   public getX(): number {

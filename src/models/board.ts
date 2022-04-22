@@ -1,7 +1,7 @@
 import { Base } from "./base";
-import { Hero } from "./entities/hero";
-import { Monster } from "./entities/monster";
-import { Monsters } from "./entities/monsters";
+import { Hero } from "./entities/hero/hero";
+import { Monster } from "./entities/monster/monster";
+import { Monsters } from "./entities/monster/monsters";
 
 export class Board {
   private allyBase: Base;
@@ -14,13 +14,19 @@ export class Board {
     this.monsters = monsters;
   }
 
-  public triggerHeroAction(): Array<String> {
-    if (!this.monsters.isThreatningMonsters()) {
+  public triggerAction(): Array<String> {
+    if (!this.monsters.isImmediatThreat()) {
       return this.allyBase.getDefensivePositionAction();
     }
-    const threatensMonster = this.monsters.findNearestThreatens(this.allyBase);
+    const threatensMonster = this.monsters.findNearestFuturOrImmediatThreat(
+      this.allyBase
+    );
     const action =
       "MOVE " + threatensMonster.getX() + " " + threatensMonster.getY();
     return [action, action, action];
+  }
+
+  public triggerActionV2(): Array<String> {
+    while (allyHeros.length > 0) {}
   }
 }

@@ -1,8 +1,8 @@
 import { Base } from "./base";
 import { Board } from "./board";
-import { Hero } from "./entities/hero";
-import { Monster } from "./entities/monster";
-import { Monsters } from "./entities/monsters";
+import { Hero } from "./entities/hero/hero";
+import { Monster } from "./entities/monster/monster";
+import { Monsters } from "./entities/monster/monsters";
 
 describe("Board unit Test", () => {
   const allyHero = [
@@ -38,7 +38,7 @@ describe("Board unit Test", () => {
       .mockReturnValue(["MOVE 6000 1000", "MOVE 5000 3000", "MOVE 2500 5000"]);
 
     const board = new Board(base, allyHero, new Monsters(monsters));
-    const actions = board.triggerHeroAction();
+    const actions = board.triggerAction();
     expect(actions[0]).toBe("MOVE 6000 1000");
     expect(actions[1]).toBe("MOVE 5000 3000");
     expect(actions[2]).toBe("MOVE 2500 5000");
@@ -48,9 +48,9 @@ describe("Board unit Test", () => {
     const monsterTargetingAlly = new Monster(1, 500, 5000, 30, 0, -400, 1, 1);
 
     const monsters = new Monsters([]);
-    jest.spyOn(monsters, "isThreatningMonsters").mockImplementation(() => true);
+    jest.spyOn(monsters, "isImmediatThreat").mockImplementation(() => true);
     jest
-      .spyOn(monsters, "findNearestThreatens")
+      .spyOn(monsters, "findNearestImmediatThreat")
       .mockImplementation(() => monsterTargetingAlly);
 
     const base: Base = new Base(0, 0, 100, 100);
@@ -61,7 +61,7 @@ describe("Board unit Test", () => {
 
     const board = new Board(base, allyHero, monsters);
 
-    const actions = board.triggerHeroAction();
+    const actions = board.triggerAction();
     expect(actions[0]).toBe("MOVE 500 5000");
     expect(actions[1]).toBe("MOVE 500 5000");
     expect(actions[2]).toBe("MOVE 500 5000");
