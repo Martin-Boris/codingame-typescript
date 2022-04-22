@@ -1,3 +1,4 @@
+import { Base } from "../base";
 import { Monster } from "./monster";
 
 export class Monsters {
@@ -13,7 +14,16 @@ export class Monsters {
     return this.treatningMonster.length > 0;
   }
 
-  public findNearestThreatens(): Monster {
+  public findNearestThreatens(base: Base): Monster {
+    this.treatningMonster.forEach((monster) =>
+      monster.computeDistanceFromBase(base)
+    );
+    this.treatningMonster.sort((monsterA, monsterB) => {
+      if (monsterA.getDistanceFromBase() > monsterB.getDistanceFromBase()) {
+        return 1;
+      }
+      return -1;
+    });
     return this.treatningMonster[0];
   }
 }

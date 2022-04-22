@@ -1,3 +1,5 @@
+import { Base } from "../base";
+
 export class Monster {
   private id: number;
   private x: number;
@@ -7,6 +9,7 @@ export class Monster {
   private vy: number;
   private nearBase: number;
   private threatFor: number;
+  private distanceFromBase: number;
 
   constructor(
     id: number,
@@ -38,5 +41,13 @@ export class Monster {
 
   public getY(): number {
     return this.y;
+  }
+
+  public computeDistanceFromBase(base: Base) {
+    this.distanceFromBase = base.computeDistanceFrom(this.x, this.y);
+  }
+
+  public getDistanceFromBase() {
+    return this.distanceFromBase;
   }
 }

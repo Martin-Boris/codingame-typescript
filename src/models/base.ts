@@ -1,3 +1,8 @@
+import {
+  BASE_POSITION_X_RIGHT_CORNER,
+  BASE_POSITION_Y_RIGHT_CORNER,
+} from "./constant/game-constant";
+
 export class Base {
   private x: number;
   private y: number;
@@ -13,8 +18,17 @@ export class Base {
 
   public getDefensivePositionAction(): Array<String> {
     if (this.x === 0 && this.y === 0) {
-      return ["MOVE 6000 1000", "MOVE 5000 3000", "MOVE 2500 5000"];
+      return ["MOVE 4000 800", "MOVE 2930 2700", "MOVE 1200 3700"];
     }
-    return ["MOVE 15000 4000", "MOVE 13800 5800", "MOVE 12700 7900"];
+    return ["MOVE 16500 5000", "MOVE 14400 6000", "MOVE 13600 7900"];
+  }
+
+  public computeDistanceFrom(x: number, y: number): number {
+    if (this.x === 0 && this.y === 0) {
+      return x * x + y * y;
+    }
+    const dx = BASE_POSITION_X_RIGHT_CORNER - x;
+    const dy = BASE_POSITION_Y_RIGHT_CORNER - y;
+    return dx * dx + dy * dy;
   }
 }

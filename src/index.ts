@@ -2,6 +2,7 @@ import { Base } from "./models/base";
 import { Board } from "./models/board";
 import { Hero } from "./models/entities/hero";
 import { Monster } from "./models/entities/monster";
+import { Monsters } from "./models/entities/monsters";
 
 var inputs = readline().split(" ");
 const baseX = parseInt(inputs[0]);
@@ -40,7 +41,7 @@ while (true) {
     }
   }
   const allyBase = new Base(baseX, baseY, health, mana);
-  const board: Board = new Board(allyBase, allyHeros, monsters);
+  const board: Board = new Board(allyBase, allyHeros, new Monsters(monsters));
 
   const actions = board.triggerHeroAction();
   actions.forEach((action) => {
