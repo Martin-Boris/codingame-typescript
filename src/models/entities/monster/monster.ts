@@ -36,8 +36,12 @@ export class Monster implements Entity {
     return this.threatFor === 1 && this.nearBase === 1;
   }
 
-  public isFuturTreat(): boolean {
-    return this.nearBase === 1;
+  public isFuturOrImmediateTreat(): boolean {
+    return this.threatFor === 1;
+  }
+
+  public isFriendly(): boolean {
+    return this.threatFor === 0;
   }
 
   public getX(): number {
@@ -54,5 +58,9 @@ export class Monster implements Entity {
 
   public getDistanceFromBase() {
     return this.distanceFromBase;
+  }
+
+  public getId() {
+    return this.getId();
   }
 }

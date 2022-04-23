@@ -1,6 +1,7 @@
 import { Base } from "./models/base";
 import { Board } from "./models/board";
 import { Hero } from "./models/entities/hero/hero";
+import { Heroes } from "./models/entities/hero/heroes";
 import { Monster } from "./models/entities/monster/monster";
 import { Monsters } from "./models/entities/monster/monsters";
 
@@ -41,9 +42,13 @@ while (true) {
     }
   }
   const allyBase = new Base(baseX, baseY, health, mana);
-  const board: Board = new Board(allyBase, allyHeros, new Monsters(monsters));
+  const board: Board = new Board(
+    allyBase,
+    new Heroes(allyHeros),
+    new Monsters(monsters)
+  );
 
-  const actions = board.triggerAction();
+  const actions = board.triggerActionV2();
   actions.forEach((action) => {
     console.log(action);
   });

@@ -1,14 +1,14 @@
+import { Action } from "./action";
 import { Base } from "./base";
-import { Hero } from "./entities/hero/hero";
-import { Monster } from "./entities/monster/monster";
+import { Heroes } from "./entities/hero/heroes";
 import { Monsters } from "./entities/monster/monsters";
 
 export class Board {
   private allyBase: Base;
-  private allyHeros: Array<Hero>;
+  private allyHeros: Heroes;
   private monsters: Monsters;
 
-  constructor(allyBase: Base, allyHeros: Array<Hero>, monsters: Monsters) {
+  constructor(allyBase: Base, allyHeros: Heroes, monsters: Monsters) {
     this.allyBase = allyBase;
     this.allyHeros = allyHeros;
     this.monsters = monsters;
@@ -18,7 +18,7 @@ export class Board {
     if (!this.monsters.isImmediatThreat()) {
       return this.allyBase.getDefensivePositionAction();
     }
-    const threatensMonster = this.monsters.findNearestFuturOrImmediatThreat(
+    const threatensMonster = this.monsters.findNearestImmediatThreat(
       this.allyBase
     );
     const action =
@@ -27,6 +27,23 @@ export class Board {
   }
 
   public triggerActionV2(): Array<String> {
-    while (allyHeros.length > 0) {}
+    const actions: Array<Action> = [];
+    while (!this.allyHeros.isEmpty()) {
+      const threatenMonster = this.monsters.findNearestFuturOrImmediatThreat(
+        this.allyBase
+      );
+      const hero = this.allyHeros.findNearestHero(threatenMonster);
+      actions.push(
+        new Action(
+          hero.getId(),
+          "MOVE " + threatenMonster.getX() + " " + threatenMonster.getY()
+        )
+      );
+      this.allyHeros.remove(hero);
+      this.monsters.remove(threatenMonster);
+    }
+    return actions
+      .sort((actionA, actionB) => actionA.order - actionB.order)
+      .map((action) => action.action);
   }
 }

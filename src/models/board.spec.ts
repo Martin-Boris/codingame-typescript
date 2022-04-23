@@ -1,6 +1,7 @@
 import { Base } from "./base";
 import { Board } from "./board";
 import { Hero } from "./entities/hero/hero";
+import { Heroes } from "./entities/hero/heroes";
 import { Monster } from "./entities/monster/monster";
 import { Monsters } from "./entities/monster/monsters";
 
@@ -37,7 +38,7 @@ describe("Board unit Test", () => {
       .spyOn(base, "getDefensivePositionAction")
       .mockReturnValue(["MOVE 6000 1000", "MOVE 5000 3000", "MOVE 2500 5000"]);
 
-    const board = new Board(base, allyHero, new Monsters(monsters));
+    const board = new Board(base, new Heroes(allyHero), new Monsters(monsters));
     const actions = board.triggerAction();
     expect(actions[0]).toBe("MOVE 6000 1000");
     expect(actions[1]).toBe("MOVE 5000 3000");
@@ -59,9 +60,9 @@ describe("Board unit Test", () => {
       "getDefensivePositionAction"
     );
 
-    const board = new Board(base, allyHero, monsters);
+    const board = new Board(base, new Heroes(allyHero), monsters);
 
-    const actions = board.triggerAction();
+    const actions = board.triggerActionV2();
     expect(actions[0]).toBe("MOVE 500 5000");
     expect(actions[1]).toBe("MOVE 500 5000");
     expect(actions[2]).toBe("MOVE 500 5000");

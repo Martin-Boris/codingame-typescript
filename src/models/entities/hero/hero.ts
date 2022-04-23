@@ -15,4 +15,8 @@ export class Hero implements Entity {
   public getY(): number {
     return this.y;
   }
+
+  public getId(): number {
+    return this.id;
+  }
 }
