@@ -35,7 +35,7 @@ export class Attacker {
   ): Action {
     let monsterToAttack = monsters.findNearestFuturThreat(base);
     if (!monsterToAttack) {
-      monsterToAttack = monsters.findNearestMonster(base);
+      monsterToAttack = monsters.findNearestMonster(base, this.position, 800);
     }
     if (!monsterToAttack) {
       return new Action(

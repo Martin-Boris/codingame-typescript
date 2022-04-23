@@ -21,7 +21,7 @@ export class Brawler implements Entity {
   computeAction(monsters: Monsters, base: Base): Action {
     let monsterToAttack = monsters.findNearestFuturOrImmediatThreat(base);
     if (!monsterToAttack) {
-      monsterToAttack = monsters.findNearestMonster(base);
+      monsterToAttack = monsters.findNearestMonster(base, this.position, 800);
     }
     if (!monsterToAttack) {
       return new Action(this.id, base.getBralwerPosition());

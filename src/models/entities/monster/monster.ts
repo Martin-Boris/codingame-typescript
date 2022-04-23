@@ -1,7 +1,5 @@
-import { computeDistancebeetwen } from "../../../function/distance-computation";
 import { Position } from "../../../utils/position";
 import { Base } from "../../base";
-import { ENEMY_HIT_RANGE } from "../../constant/game-constant";
 import { Entity } from "../entity";
 
 export class Monster implements Entity {

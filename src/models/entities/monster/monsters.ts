@@ -82,9 +82,16 @@ export class Monsters {
     return futurOrImmediatThreat[0];
   }
 
-  public findNearestMonster(base: Base): Monster {
+  public findNearestMonster(
+    base: Base,
+    heroPosition: Position,
+    maxDistance: number
+  ): Monster {
     const monsterFree = this.monsters.filter(
-      (monster: Monster) => !monster.isAttacked()
+      (monster: Monster) =>
+        !monster.isAttacked() &&
+        computeDistancebeetwen(monster.getPosition(), heroPosition) <=
+          maxDistance
     );
     monsterFree.forEach((monster) => monster.computeDistanceFromBase(base));
     monsterFree.sort((monsterA, monsterB) => {
