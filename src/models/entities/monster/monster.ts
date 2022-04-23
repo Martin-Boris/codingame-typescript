@@ -1,16 +1,19 @@
+import { computeDistancebeetwen } from "../../../function/distance-computation";
+import { Position } from "../../../utils/position";
 import { Base } from "../../base";
+import { ENEMY_HIT_RANGE } from "../../constant/game-constant";
 import { Entity } from "../entity";
 
 export class Monster implements Entity {
   private id: number;
-  private x: number;
-  private y: number;
+  private position: Position;
   private health: number;
   private vx: number;
   private vy: number;
   private nearBase: number;
   private threatFor: number;
   private distanceFromBase: number;
+  private attacked: boolean;
 
   constructor(
     id: number,
@@ -23,8 +26,7 @@ export class Monster implements Entity {
     threatFor: number
   ) {
     this.id = id;
-    this.x = x;
-    this.y = y;
+    this.position = new Position(x, y);
     this.health = health;
     this.vx = vx;
     this.vy = vy;
@@ -45,15 +47,15 @@ export class Monster implements Entity {
   }
 
   public getX(): number {
-    return this.x;
+    return this.position.getX();
   }
 
   public getY(): number {
-    return this.y;
+    return this.position.getY();
   }
 
   public computeDistanceFromBase(base: Base) {
-    this.distanceFromBase = base.computeDistanceFrom(this.x, this.y);
+    this.distanceFromBase = base.computePowDistanceFrom(this.position);
   }
 
   public getDistanceFromBase() {
@@ -62,5 +64,21 @@ export class Monster implements Entity {
 
   public getId() {
     return this.getId();
+  }
+
+  setAttacked() {
+    this.attacked = true;
+  }
+
+  isAttacked() {
+    return this.attacked;
+  }
+
+  needAWind(base: Base): boolean {
+    return base.computeDistanceFrom(this.position) < 3202;
+  }
+
+  getPosition(): Position {
+    return this.position;
   }
 }

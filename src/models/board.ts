@@ -1,47 +1,56 @@
 import { Action } from "./action";
 import { Base } from "./base";
-import { Heroes } from "./entities/hero/heroes";
+import { Attacker } from "./entities/hero/attacker";
+import { Brawler } from "./entities/hero/brawler";
+import { Defensor } from "./entities/hero/defensor";
+import { Hero } from "./entities/hero/hero";
 import { Monsters } from "./entities/monster/monsters";
 
 export class Board {
   private allyBase: Base;
-  private allyHeros: Heroes;
   private monsters: Monsters;
+  private defensor: Defensor;
+  private brawler: Brawler;
+  private attacker: Attacker;
 
-  constructor(allyBase: Base, allyHeros: Heroes, monsters: Monsters) {
+  constructor(allyBase: Base, allyHeros: Array<Hero>, monsters: Monsters) {
     this.allyBase = allyBase;
-    this.allyHeros = allyHeros;
     this.monsters = monsters;
+    this.defensor = new Defensor(
+      allyHeros[0].id,
+      allyHeros[0].x,
+      allyHeros[0].y
+    );
+
+    this.brawler = new Brawler(allyHeros[1].id, allyHeros[1].x, allyHeros[1].y);
+
+    this.attacker = new Attacker(
+      allyHeros[2].id,
+      allyHeros[2].x,
+      allyHeros[2].y
+    );
   }
 
   public triggerAction(): Array<String> {
-    if (!this.monsters.isImmediatThreat()) {
-      return this.allyBase.getDefensivePositionAction();
-    }
-    const threatensMonster = this.monsters.findNearestImmediatThreat(
+    const actions: Array<Action> = [];
+    const defensorAction = this.defensor.computeAction(
+      this.monsters,
       this.allyBase
     );
-    const action =
-      "MOVE " + threatensMonster.getX() + " " + threatensMonster.getY();
-    return [action, action, action];
-  }
+    actions.push(defensorAction);
 
-  public triggerActionV2(): Array<String> {
-    const actions: Array<Action> = [];
-    while (!this.allyHeros.isEmpty()) {
-      const threatenMonster = this.monsters.findNearestFuturOrImmediatThreat(
-        this.allyBase
-      );
-      const hero = this.allyHeros.findNearestHero(threatenMonster);
-      actions.push(
-        new Action(
-          hero.getId(),
-          "MOVE " + threatenMonster.getX() + " " + threatenMonster.getY()
-        )
-      );
-      this.allyHeros.remove(hero);
-      this.monsters.remove(threatenMonster);
-    }
+    const brawlerAction = this.brawler.computeAction(
+      this.monsters,
+      this.allyBase
+    );
+    actions.push(brawlerAction);
+
+    const attackerAction = this.attacker.computeAction(
+      this.monsters,
+      this.allyBase
+    );
+    actions.push(attackerAction);
+
     return actions
       .sort((actionA, actionB) => actionA.order - actionB.order)
       .map((action) => action.action);

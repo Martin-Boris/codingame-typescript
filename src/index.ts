@@ -1,7 +1,6 @@
 import { Base } from "./models/base";
 import { Board } from "./models/board";
 import { Hero } from "./models/entities/hero/hero";
-import { Heroes } from "./models/entities/hero/heroes";
 import { Monster } from "./models/entities/monster/monster";
 import { Monsters } from "./models/entities/monster/monsters";
 
@@ -36,19 +35,15 @@ while (true) {
     const nearBase = parseInt(inputs[9]); // 0=monster with no target yet, 1=monster targeting a base
     const threatFor = parseInt(inputs[10]); // Given this monster's trajectory, is it a threat to 1=your base, 2=your opponent's base, 0=neither
     if (type === 1) {
-      allyHeros.push(new Hero(id, x, y));
+      allyHeros.push({ id, x, y });
     } else if (type === 0) {
       monsters.push(new Monster(id, x, y, health, vx, vy, nearBase, threatFor));
     }
   }
   const allyBase = new Base(baseX, baseY, health, mana);
-  const board: Board = new Board(
-    allyBase,
-    new Heroes(allyHeros),
-    new Monsters(monsters)
-  );
+  const board: Board = new Board(allyBase, allyHeros, new Monsters(monsters));
 
-  const actions = board.triggerActionV2();
+  const actions = board.triggerAction();
   actions.forEach((action) => {
     console.log(action);
   });

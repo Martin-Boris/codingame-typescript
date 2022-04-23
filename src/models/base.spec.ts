@@ -1,3 +1,4 @@
+import { Position } from "../utils/position";
 import { Base } from "./base";
 import {
   BASE_POSITION_X_LEFT_CORNER,
@@ -35,5 +36,18 @@ describe("base unit test", () => {
       "MOVE 14400 6000",
       "MOVE 13600 7900",
     ]);
+  });
+});
+
+describe("computeDistanceFromBase", () => {
+  it("should compute distance", () => {
+    const base = new Base(
+      BASE_POSITION_X_LEFT_CORNER,
+      BASE_POSITION_Y_LEFT_CORNER,
+      100,
+      100
+    );
+    const position = new Position(2554, 870);
+    expect(base.computeDistanceFrom(position)).toBe(2698.113414962388);
   });
 });
