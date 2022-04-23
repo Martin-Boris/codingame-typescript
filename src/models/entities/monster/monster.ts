@@ -45,6 +45,10 @@ export class Monster implements Entity {
     return this.threatFor === 1;
   }
 
+  public isFuturTreat(): boolean {
+    return this.threatFor === 1 && this.nearBase != 1;
+  }
+
   public isFriendly(): boolean {
     return this.threatFor === 0;
   }
@@ -77,8 +81,8 @@ export class Monster implements Entity {
     return this.attacked;
   }
 
-  needAWind(base: Base): boolean {
-    return base.computeDistanceFrom(this.position) < 3202;
+  isWindEligible(base: Base): boolean {
+    return base.computeDistanceFrom(this.position) < 3202 && !this.shieldLife;
   }
 
   getPosition(): Position {
@@ -91,5 +95,9 @@ export class Monster implements Entity {
 
   getShieldLife(): number {
     return this.shieldLife;
+  }
+
+  isFuturEnemyThreat(): boolean {
+    return this.threatFor === 2;
   }
 }

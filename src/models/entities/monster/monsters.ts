@@ -1,7 +1,13 @@
 import { computeDistancebeetwen } from "../../../function/distance-computation";
 import { Position } from "../../../utils/position";
 import { Base } from "../../base";
-import { ENEMY_FOCUS_RANGE, WIND_RANGE } from "../../constant/game-constant";
+import {
+  CONTROL_HEALTH_TRESHOLD,
+  CONTROL_RANGE,
+  ENEMY_FOCUS_RANGE,
+  SHIELD_RANGE,
+  WIND_RANGE,
+} from "../../constant/game-constant";
 import { Monster } from "./monster";
 
 export class Monsters {
@@ -45,7 +51,24 @@ export class Monsters {
   public findNearestFuturOrImmediatThreat(base: Base): Monster {
     const futurOrImmediatThreat = this.monsters.filter(
       (monster: Monster) =>
-        monster.isFuturOrImmediateTreat() && !monster.isAttacked()
+        monster.isFuturOrImmediateTreat() &&
+        (!monster.isAttacked() || monster.getShieldLife())
+    );
+    futurOrImmediatThreat.forEach((monster) =>
+      monster.computeDistanceFromBase(base)
+    );
+    futurOrImmediatThreat.sort((monsterA, monsterB) => {
+      if (monsterA.getDistanceFromBase() > monsterB.getDistanceFromBase()) {
+        return 1;
+      }
+      return -1;
+    });
+    return futurOrImmediatThreat[0];
+  }
+
+  public findNearestFuturThreat(base: Base): Monster {
+    const futurOrImmediatThreat = this.monsters.filter((monster: Monster) =>
+      monster.isFuturTreat()
     );
     futurOrImmediatThreat.forEach((monster) =>
       monster.computeDistanceFromBase(base)
@@ -80,11 +103,17 @@ export class Monsters {
     );
   }
 
-  findOneInBaseRangeWithMoreHp(base: Base): Monster {
+  findOneInBaseRangeWithMoreHpEligibleToShield(
+    base: Base,
+    heroPosition: Position
+  ): Monster {
     const monstersInEnemyBase = this.monsters.filter(
       (monster) =>
         computeDistancebeetwen(base.getEnemyPosition(), monster.getPosition()) <
-          ENEMY_FOCUS_RANGE && !monster.getShieldLife()
+          ENEMY_FOCUS_RANGE &&
+        !monster.getShieldLife() &&
+        computeDistancebeetwen(monster.getPosition(), heroPosition) <=
+          SHIELD_RANGE
     );
     let maxHp = 0;
     let monsterWithMaxHp: Monster;
@@ -95,5 +124,17 @@ export class Monsters {
       }
     });
     return monsterWithMaxHp;
+  }
+
+  findOneEligibleToControl(heroPosition: Position) {
+    const monstersEligibleToControl = this.monsters.filter(
+      (monster) =>
+        !monster.isFuturEnemyThreat() &&
+        computeDistancebeetwen(monster.getPosition(), heroPosition) <=
+          CONTROL_RANGE &&
+        !monster.isFocusingAlly() &&
+        monster.getHealth() > CONTROL_HEALTH_TRESHOLD
+    );
+    return monstersEligibleToControl[0];
   }
 }

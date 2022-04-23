@@ -20,8 +20,13 @@ while (true) {
   turnCount++;
   for (let i = 0; i < 2; i++) {
     var inputs = readline().split(" ");
-    health = parseInt(inputs[0]); // Your base health
-    mana = parseInt(inputs[1]); // Ignore in the first league; Spend ten mana to cast a spell
+    if (i == 0) {
+      health = parseInt(inputs[0]); // Your base health
+      mana = parseInt(inputs[1]); // Ignore in the first league; Spend ten mana to cast a spell
+    } else {
+      const enemyHealth = parseInt(inputs[0]); // Your base health
+      const enemyMana = parseInt(inputs[1]); // Ignore in the first league; Spend ten mana to cast a spell
+    }
   }
   const entityCount = parseInt(readline()); // Amount of heros and monsters you can see
   for (let i = 0; i < entityCount; i++) {

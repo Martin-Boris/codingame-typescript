@@ -67,9 +67,9 @@ export class Base {
       return new Position(9604, 6523);
     }
     if (this.position.isPositionLeft()) {
-      return new Position(13193, 6320);
+      return new Position(13387, 4757);
     }
-    return new Position(4285, 2807);
+    return new Position(4001, 4471);
   }
 
   getEnemyPosition(): Position {
@@ -84,5 +84,9 @@ export class Base {
       return 1;
     }
     return -1;
+  }
+
+  getMana(): number {
+    return this.mana;
   }
 }

@@ -4,6 +4,7 @@ import { Base } from "../../base";
 import {
   ATTACK_MODE_TURN_TRESHOLD,
   ENEMY_HEALTH_TRESHOLD_FOR_SHIELD,
+  MANA_DISABLE_ATTACK_CONTROL_TRESHOLD,
 } from "../../constant/game-constant";
 import { Monsters } from "../monster/monsters";
 
@@ -32,7 +33,7 @@ export class Attacker {
     base: Base,
     turnCount: number
   ): Action {
-    let monsterToAttack = monsters.findNearestFuturOrImmediatThreat(base);
+    let monsterToAttack = monsters.findNearestFuturThreat(base);
     if (!monsterToAttack) {
       monsterToAttack = monsters.findNearestMonster(base);
     }
@@ -56,10 +57,35 @@ export class Attacker {
     turnCount: number
   ): Action {
     const attackingPosition = base.getAttackerPosition(turnCount);
+
     if (!this.position.equals(attackingPosition)) {
-      return new Action(this.id, attackingPosition.convertIntoMoveAction());
+      const monsterEligibleTocontrol = monsters.findOneEligibleToControl(
+        this.position
+      );
+      if (
+        monsterEligibleTocontrol &&
+        base.getMana() > MANA_DISABLE_ATTACK_CONTROL_TRESHOLD
+      ) {
+        return new Action(
+          this.id,
+          "SPELL CONTROL " +
+            monsterEligibleTocontrol.getId() +
+            " " +
+            base.getEnemyPosition().getX() +
+            " " +
+            base.getEnemyPosition().getY()
+        );
+      }
+      return new Action(
+        this.id,
+        attackingPosition.convertIntoMoveAction() + " " + base.getMana()
+      );
     }
-    const monstersAttackinEnemy = monsters.findOneInBaseRangeWithMoreHp(base);
+    const monstersAttackinEnemy =
+      monsters.findOneInBaseRangeWithMoreHpEligibleToShield(
+        base,
+        this.position
+      );
     if (
       monstersAttackinEnemy &&
       monstersAttackinEnemy.getHealth() >= ENEMY_HEALTH_TRESHOLD_FOR_SHIELD
@@ -73,6 +99,20 @@ export class Attacker {
       return new Action(
         this.id,
         "SPELL WIND " +
+          base.getEnemyPosition().getX() +
+          " " +
+          base.getEnemyPosition().getY()
+      );
+    }
+    const monsterEligibleTocontrol = monsters.findOneEligibleToControl(
+      this.position
+    );
+    if (monsterEligibleTocontrol) {
+      return new Action(
+        this.id,
+        "SPELL CONTROL " +
+          monsterEligibleTocontrol.getId() +
+          " " +
           base.getEnemyPosition().getX() +
           " " +
           base.getEnemyPosition().getY()

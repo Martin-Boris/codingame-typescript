@@ -25,7 +25,7 @@ export class Defensor implements Entity {
     }
     if (
       isInWindRange(monsterToAttack.getPosition(), this.position) &&
-      monsterToAttack.needAWind(base)
+      monsterToAttack.isWindEligible(base)
     ) {
       const action = new Action(
         this.id,
