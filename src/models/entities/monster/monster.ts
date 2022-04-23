@@ -14,6 +14,7 @@ export class Monster implements Entity {
   private threatFor: number;
   private distanceFromBase: number;
   private attacked: boolean;
+  private shieldLife: number;
 
   constructor(
     id: number,
@@ -23,7 +24,8 @@ export class Monster implements Entity {
     vx: number,
     vy: number,
     nearBase: number,
-    threatFor: number
+    threatFor: number,
+    shieldLife: number
   ) {
     this.id = id;
     this.position = new Position(x, y);
@@ -32,6 +34,7 @@ export class Monster implements Entity {
     this.vy = vy;
     this.nearBase = nearBase;
     this.threatFor = threatFor;
+    this.shieldLife = shieldLife;
   }
 
   public isFocusingAlly(): boolean {
@@ -63,7 +66,7 @@ export class Monster implements Entity {
   }
 
   public getId() {
-    return this.getId();
+    return this.id;
   }
 
   setAttacked() {
@@ -80,5 +83,13 @@ export class Monster implements Entity {
 
   getPosition(): Position {
     return this.position;
+  }
+
+  getHealth(): number {
+    return this.health;
+  }
+
+  getShieldLife(): number {
+    return this.shieldLife;
   }
 }

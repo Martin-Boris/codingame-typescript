@@ -12,10 +12,18 @@ export class Board {
   private defensor: Defensor;
   private brawler: Brawler;
   private attacker: Attacker;
+  private turnCount: number;
 
-  constructor(allyBase: Base, allyHeros: Array<Hero>, monsters: Monsters) {
+  constructor(
+    allyBase: Base,
+    allyHeros: Array<Hero>,
+    monsters: Monsters,
+    turnCount: number
+  ) {
     this.allyBase = allyBase;
     this.monsters = monsters;
+    this.turnCount = turnCount;
+
     this.defensor = new Defensor(
       allyHeros[0].id,
       allyHeros[0].x,
@@ -47,7 +55,8 @@ export class Board {
 
     const attackerAction = this.attacker.computeAction(
       this.monsters,
-      this.allyBase
+      this.allyBase,
+      this.turnCount
     );
     actions.push(attackerAction);
 

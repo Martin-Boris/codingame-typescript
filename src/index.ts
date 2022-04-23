@@ -9,12 +9,15 @@ const baseX = parseInt(inputs[0]);
 const baseY = parseInt(inputs[1]);
 const heroesPerPlayer = parseInt(readline());
 
+let turnCount = 0;
+
 while (true) {
   let health: number;
   let mana: number;
   const monsters: Array<Monster> = new Array();
   const allyHeros: Array<Hero> = new Array();
 
+  turnCount++;
   for (let i = 0; i < 2; i++) {
     var inputs = readline().split(" ");
     health = parseInt(inputs[0]); // Your base health
@@ -37,14 +40,21 @@ while (true) {
     if (type === 1) {
       allyHeros.push({ id, x, y });
     } else if (type === 0) {
-      monsters.push(new Monster(id, x, y, health, vx, vy, nearBase, threatFor));
+      monsters.push(
+        new Monster(id, x, y, health, vx, vy, nearBase, threatFor, shieldLife)
+      );
     }
   }
   const allyBase = new Base(baseX, baseY, health, mana);
-  const board: Board = new Board(allyBase, allyHeros, new Monsters(monsters));
+  const board: Board = new Board(
+    allyBase,
+    allyHeros,
+    new Monsters(monsters),
+    turnCount
+  );
 
   const actions = board.triggerAction();
   actions.forEach((action) => {
-    console.log(action);
+    console.log(action + "  " + turnCount);
   });
 }

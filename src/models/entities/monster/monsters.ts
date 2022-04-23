@@ -1,4 +1,7 @@
+import { computeDistancebeetwen } from "../../../function/distance-computation";
+import { Position } from "../../../utils/position";
 import { Base } from "../../base";
+import { ENEMY_FOCUS_RANGE, WIND_RANGE } from "../../constant/game-constant";
 import { Monster } from "./monster";
 
 export class Monsters {
@@ -70,13 +73,27 @@ export class Monsters {
     return this.monsters[0];
   }
 
-  public remove(monsterToRemove: Monster) {
-    const newMonsters = [];
-    this.monsters.forEach((monster) => {
-      if (monster.getId() != monsterToRemove) {
-        newMonsters.push(monster);
+  isOneInWindRangeAround(position: Position) {
+    return this.monsters.some(
+      (monster) =>
+        computeDistancebeetwen(position, monster.getPosition()) <= WIND_RANGE
+    );
+  }
+
+  findOneInBaseRangeWithMoreHp(base: Base): Monster {
+    const monstersInEnemyBase = this.monsters.filter(
+      (monster) =>
+        computeDistancebeetwen(base.getEnemyPosition(), monster.getPosition()) <
+          ENEMY_FOCUS_RANGE && !monster.getShieldLife()
+    );
+    let maxHp = 0;
+    let monsterWithMaxHp: Monster;
+    monstersInEnemyBase.forEach((monster) => {
+      if (monster.getHealth() > maxHp) {
+        maxHp = monster.getHealth();
+        monsterWithMaxHp = monster;
       }
     });
-    this.monsters = newMonsters;
+    return monsterWithMaxHp;
   }
 }

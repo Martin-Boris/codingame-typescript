@@ -1,5 +1,6 @@
 import { Position } from "../utils/position";
 import {
+  ATTACK_MODE_TURN_TRESHOLD,
   BASE_POSITION_X_RIGHT_CORNER,
   BASE_POSITION_Y_RIGHT_CORNER,
   LEFT_BASE_POSITION,
@@ -58,11 +59,17 @@ export class Base {
     return "MOVE 12149 3876";
   }
 
-  public getAttackerPosition(): String {
-    if (this.position.isPositionLeft()) {
-      return "MOVE 4666 6116";
+  public getAttackerPosition(turnCount: number): Position {
+    if (turnCount < ATTACK_MODE_TURN_TRESHOLD) {
+      if (this.position.isPositionLeft()) {
+        return new Position(4666, 6116);
+      }
+      return new Position(9604, 6523);
     }
-    return "MOVE 9604 6523";
+    if (this.position.isPositionLeft()) {
+      return new Position(13193, 6320);
+    }
+    return new Position(4285, 2807);
   }
 
   getEnemyPosition(): Position {
