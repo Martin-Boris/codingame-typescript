@@ -1,16 +1,11 @@
-import { Defensor } from "../models/entities/hero/defensor";
-import { Monster } from "../models/entities/monster/monster";
 import { Position } from "../utils/position";
-import {
-  computePowDistancebeetwen,
-  isInWindRange,
-} from "./distance-computation";
+import { computeDistancebeetwen, isInWindRange } from "./distance-computation";
 
 describe("computePowDistancebeetwen", () => {
-  it("should compute distance beetwen the two entity", () => {
-    const hero = new Defensor(1, 10, 15);
-    const monster = new Monster(1, 200, 10, 30, -100, 350, 1, 2);
-    expect(computePowDistancebeetwen(hero, monster)).toBe(36125);
+  it("should compute distance", () => {
+    const hero = new Position(5839, 679);
+    const monster = new Position(7072, 777);
+    expect(computeDistancebeetwen(hero, monster)).toBe(1236.8884347426003);
   });
 
   it("isInWindRange, should be in wind range", () => {

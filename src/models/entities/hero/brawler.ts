@@ -9,15 +9,14 @@ import { Defensor } from "./defensor";
 import { EnemyHeroes } from "./enemyHeroes";
 import { Hero } from "./hero";
 
-export class Brawler implements Entity {
-  private id: number;
+export class Brawler extends Entity {
   private x: number;
   private y: number;
   private position: Position;
   private shieldLife: number;
 
   constructor(id: number, x: number, y: number, shieldLife: number) {
-    this.id = id;
+    super(id);
     this.x = x;
     this.y = y;
     this.position = new Position(x, y);
@@ -33,9 +32,10 @@ export class Brawler implements Entity {
     let monsterToAttack = monsters.findNearestFuturOrImmediatThreat(base);
     if (enemyHero.isAtLeastOneHeroAttackingBase(base)) {
       if (
-        !defensor.hasShield() &&
+        !defensor.getShieldLife() &&
         computeDistancebeetwen(this.position, defensor.getPosition()) <
-          SHIELD_RANGE
+          SHIELD_RANGE &&
+        base.getMana() >= 10
       ) {
         return new Action(defensor.getId(), "SPELL SHIELD " + defensor.getId());
       }
@@ -49,11 +49,11 @@ export class Brawler implements Entity {
     if (!monsterToAttack) {
       return new Action(this.id, base.getBralwerPosition());
     }
-    const action = new Action(
-      this.id,
-      "MOVE " + monsterToAttack.getX() + " " + monsterToAttack.getY()
+    const action = super.computeAttackMove(
+      monsters,
+      monsterToAttack,
+      this.position
     );
-    monsterToAttack.setAttacked();
     return action;
   }
 

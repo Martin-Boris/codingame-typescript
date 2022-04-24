@@ -1,9 +1,16 @@
+import { computeDistancebeetwen } from "../../../function/distance-computation";
 import { Position } from "../../../utils/position";
 import { Base } from "../../base";
+import {
+  ATK_RANGE,
+  ENEMY_HIT_RANGE,
+  MOVE_RANGE,
+  SPELL_COST,
+  WIND_RANGE,
+} from "../../constant/game-constant";
 import { Entity } from "../entity";
 
-export class Monster implements Entity {
-  private id: number;
+export class Monster extends Entity {
   private position: Position;
   private health: number;
   private vx: number;
@@ -25,7 +32,7 @@ export class Monster implements Entity {
     threatFor: number,
     shieldLife: number
   ) {
-    this.id = id;
+    super(id);
     this.position = new Position(x, y);
     this.health = health;
     this.vx = vx;
@@ -101,5 +108,76 @@ export class Monster implements Entity {
 
   isFuturEnemyThreat(): boolean {
     return this.threatFor === 2;
+  }
+
+  getVx(): number {
+    return this.vx;
+  }
+
+  getVy(): number {
+    return this.vy;
+  }
+
+  isKillableAlone(atkPosition: Position, base: Base): boolean {
+    let turnNeededToKill: number = 0;
+    const AtkMonsterDistance = computeDistancebeetwen(
+      atkPosition,
+      this.position
+    );
+    if (AtkMonsterDistance > ATK_RANGE) {
+      const nbTurnBeforeReach = Math.ceil(
+        (AtkMonsterDistance - ATK_RANGE) / MOVE_RANGE
+      );
+      turnNeededToKill += nbTurnBeforeReach;
+    }
+    turnNeededToKill += Math.ceil(this.health / 2);
+    let monsterPositionPrediction = this.position;
+    let killableAlone = true;
+    while (turnNeededToKill > 0 && killableAlone) {
+      turnNeededToKill--;
+      monsterPositionPrediction = this.position.computeMouvement(
+        this.vx,
+        this.vy
+      );
+      if (
+        computeDistancebeetwen(monsterPositionPrediction, base.getPosition()) <
+        ENEMY_HIT_RANGE
+      ) {
+        killableAlone = false;
+      }
+    }
+    return killableAlone;
+  }
+
+  isHandlableAlone(atkPosition: Position, base: Base): boolean {
+    if (this.shieldLife || base.getMana() <= SPELL_COST * 3) {
+      return this.isKillableAlone(atkPosition, base);
+    }
+    const AtkMonsterDistance = computeDistancebeetwen(
+      atkPosition,
+      this.position
+    );
+    if (AtkMonsterDistance < WIND_RANGE) {
+      return true;
+    }
+    let nbTurnBeforeReach = Math.ceil(
+      (AtkMonsterDistance - ATK_RANGE) / MOVE_RANGE
+    );
+    let monsterPositionPrediction = this.position;
+    let handableAlone = true;
+    while (nbTurnBeforeReach > 0 && handableAlone) {
+      nbTurnBeforeReach--;
+      monsterPositionPrediction = this.position.computeMouvement(
+        this.vx,
+        this.vy
+      );
+      if (
+        computeDistancebeetwen(monsterPositionPrediction, base.getPosition()) <
+        ENEMY_HIT_RANGE
+      ) {
+        handableAlone = false;
+      }
+    }
+    return handableAlone;
   }
 }

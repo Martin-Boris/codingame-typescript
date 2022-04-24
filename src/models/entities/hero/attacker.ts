@@ -1,4 +1,3 @@
-import { Monster } from "../../../../dist/codingame";
 import { computeDistancebeetwen } from "../../../function/distance-computation";
 import { generateRandomNumber } from "../../../function/random";
 import { Position } from "../../../utils/position";
@@ -10,17 +9,17 @@ import {
   MANA_DISABLE_ATTACK_CONTROL_TRESHOLD,
   MANA_DISABLE_ATTACK_WIND_TRESHOLD,
 } from "../../constant/game-constant";
+import { Entity } from "../entity";
 import { Monsters } from "../monster/monsters";
 import { EnemyHeroes } from "./enemyHeroes";
 
-export class Attacker {
-  private id: number;
+export class Attacker extends Entity {
   private x: number;
   private y: number;
   private position: Position;
 
   constructor(id: number, x: number, y: number) {
-    this.id = id;
+    super(id);
     this.x = x;
     this.y = y;
     this.position = new Position(x, y);
@@ -52,11 +51,11 @@ export class Attacker {
       monsterToAttack &&
       computeDistancebeetwen(this.position, base.getPosition()) > 7000
     ) {
-      const action = new Action(
-        this.id,
-        "MOVE " + monsterToAttack.getX() + " " + monsterToAttack.getY()
+      const action = super.computeAttackMove(
+        monsters,
+        monsterToAttack,
+        this.position
       );
-      monsterToAttack.setAttacked();
       return action;
     }
     return new Action(
@@ -102,7 +101,8 @@ export class Attacker {
     );
     if (
       enemyHeroEligibleTocontrol &&
-      base.getMana() > MANA_DISABLE_ATTACK_CONTROL_TRESHOLD
+      base.getMana() > MANA_DISABLE_ATTACK_CONTROL_TRESHOLD &&
+      monsters.findMonsterOnEnemyBase(base).length > 1
     ) {
       return new Action(
         this.id,

@@ -59,19 +59,6 @@ export class Base {
     return "MOVE 12149 3876";
   }
 
-  public getAttackerPosition(turnCount: number): Position {
-    if (turnCount < ATTACK_MODE_TURN_TRESHOLD) {
-      if (this.position.isPositionLeft()) {
-        return new Position(4666, 6116);
-      }
-      return new Position(9604, 6523);
-    }
-    if (this.position.isPositionLeft()) {
-      return new Position(13387, 4757);
-    }
-    return new Position(4001, 4471);
-  }
-
   getEnemyPosition(): Position {
     if (this.position.isPositionLeft()) {
       return RIGHT_BASE_POSITION;

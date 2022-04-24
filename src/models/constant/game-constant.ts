@@ -12,6 +12,9 @@ const ENEMY_FOCUS_RANGE: number = 5000;
 const WIND_RANGE: number = 1280;
 const SHIELD_RANGE: number = 2200;
 const CONTROL_RANGE: number = 2200;
+const MOVE_RANGE: number = 800;
+const ATK_RANGE: number = 800;
+const SPELL_COST: number = 10;
 
 const LEFT_BASE_POSITION = new Position(
   BASE_POSITION_X_LEFT_CORNER,
@@ -45,4 +48,7 @@ export {
   MANA_DISABLE_ATTACK_CONTROL_TRESHOLD,
   CONTROL_HEALTH_TRESHOLD,
   MANA_DISABLE_ATTACK_WIND_TRESHOLD,
+  MOVE_RANGE,
+  ATK_RANGE,
+  SPELL_COST,
 };

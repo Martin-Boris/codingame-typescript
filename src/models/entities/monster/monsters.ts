@@ -148,4 +148,20 @@ export class Monsters {
   isOneFocusingEnemyBase(): boolean {
     return this.monsters.some((monster) => monster.isFocusingEnemyBase());
   }
+
+  findMonsterInRange(monsterToAttack: Monster, range: number): Monster {
+    const monstersInRange = this.monsters.filter(
+      (monster) =>
+        monsterToAttack.getId() != monster.getId() &&
+        computeDistancebeetwen(
+          monsterToAttack.getPosition(),
+          monster.getPosition()
+        ) <= range
+    );
+    return monstersInRange[0];
+  }
+
+  findMonsterOnEnemyBase(base: Base): Array<Monster> {
+    return this.monsters.filter((monster) => monster.isFocusingEnemyBase());
+  }
 }

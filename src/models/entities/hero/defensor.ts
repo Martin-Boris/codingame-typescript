@@ -5,15 +5,14 @@ import { Base } from "../../base";
 import { Entity } from "../entity";
 import { Monsters } from "../monster/monsters";
 
-export class Defensor implements Entity {
-  private id: number;
+export class Defensor extends Entity {
   private x: number;
   private y: number;
   private position: Position;
   private shieldLife: number;
 
   constructor(id: number, x: number, y: number, shieldLife: number) {
-    this.id = id;
+    super(id);
     this.x = x;
     this.y = y;
     this.position = new Position(x, y);
@@ -27,7 +26,8 @@ export class Defensor implements Entity {
     }
     if (
       isInWindRange(monsterToAttack.getPosition(), this.position) &&
-      monsterToAttack.isWindEligible(base)
+      monsterToAttack.isWindEligible(base) &&
+      base.getMana() >= 10
     ) {
       const action = new Action(
         this.id,
@@ -39,11 +39,11 @@ export class Defensor implements Entity {
       monsterToAttack.setAttacked();
       return action;
     }
-    const action = new Action(
-      this.id,
-      "MOVE " + monsterToAttack.getX() + " " + monsterToAttack.getY()
+    const action = super.computeAttackMove(
+      monsters,
+      monsterToAttack,
+      this.position
     );
-    monsterToAttack.setAttacked();
     return action;
   }
 
@@ -62,7 +62,7 @@ export class Defensor implements Entity {
     return this.position;
   }
 
-  hasShield(): boolean {
-    return this.shieldLife > 1;
+  getShieldLife() {
+    return this.shieldLife;
   }
 }

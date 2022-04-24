@@ -26,4 +26,8 @@ export class Position {
   equals(position: Position): boolean {
     return this.x === position.getX() && this.y === position.getY();
   }
+
+  computeMouvement(vX: number, vY: number): Position {
+    return new Position(this.x + vX, this.y + vY);
+  }
 }
