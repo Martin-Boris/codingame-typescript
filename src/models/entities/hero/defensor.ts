@@ -10,12 +10,14 @@ export class Defensor implements Entity {
   private x: number;
   private y: number;
   private position: Position;
+  private shieldLife: number;
 
-  constructor(id: number, x: number, y: number) {
+  constructor(id: number, x: number, y: number, shieldLife: number) {
     this.id = id;
     this.x = x;
     this.y = y;
     this.position = new Position(x, y);
+    this.shieldLife = shieldLife;
   }
 
   computeAction(monsters: Monsters, base: Base): Action {
@@ -58,5 +60,9 @@ export class Defensor implements Entity {
 
   getPosition(): Position {
     return this.position;
+  }
+
+  hasShield(): boolean {
+    return this.shieldLife > 1;
   }
 }

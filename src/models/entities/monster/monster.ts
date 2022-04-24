@@ -84,7 +84,7 @@ export class Monster implements Entity {
   }
 
   isWindEligible(base: Base): boolean {
-    return base.computeDistanceFrom(this.position) < 3202 && !this.shieldLife;
+    return base.computeDistanceFrom(this.position) < 3200 && !this.shieldLife;
   }
 
   getPosition(): Position {

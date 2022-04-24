@@ -66,41 +66,40 @@ export class Monsters {
     return futurOrImmediatThreat[0];
   }
 
-  public findNearestFuturThreat(base: Base): Monster {
+  public findNearestFuturThreat(position: Position): Monster {
     const futurOrImmediatThreat = this.monsters.filter((monster: Monster) =>
       monster.isFuturTreat()
     );
-    futurOrImmediatThreat.forEach((monster) =>
-      monster.computeDistanceFromBase(base)
-    );
-    futurOrImmediatThreat.sort((monsterA, monsterB) => {
-      if (monsterA.getDistanceFromBase() > monsterB.getDistanceFromBase()) {
-        return 1;
+    let minDistance = Number.MAX_VALUE;
+    let monsterToFocus: Monster;
+    futurOrImmediatThreat.forEach((monster) => {
+      const distance = computeDistancebeetwen(monster.getPosition(), position);
+      if (distance < minDistance) {
+        monsterToFocus = monster;
       }
-      return -1;
     });
-    return futurOrImmediatThreat[0];
+    return monsterToFocus;
   }
 
   public findNearestMonster(
     base: Base,
-    heroPosition: Position,
+    position: Position,
     maxDistance: number
   ): Monster {
     const monsterFree = this.monsters.filter(
       (monster: Monster) =>
         !monster.isAttacked() &&
-        computeDistancebeetwen(monster.getPosition(), heroPosition) <=
-          maxDistance
+        computeDistancebeetwen(monster.getPosition(), position) <= maxDistance
     );
-    monsterFree.forEach((monster) => monster.computeDistanceFromBase(base));
-    monsterFree.sort((monsterA, monsterB) => {
-      if (monsterA.getDistanceFromBase() > monsterB.getDistanceFromBase()) {
-        return 1;
+    let minDistance = Number.MAX_VALUE;
+    let monsterToFocus: Monster;
+    monsterFree.forEach((monster) => {
+      const distance = computeDistancebeetwen(monster.getPosition(), position);
+      if (distance < minDistance) {
+        monsterToFocus = monster;
       }
-      return -1;
     });
-    return this.monsters[0];
+    return monsterToFocus;
   }
 
   isOneInWindRangeAround(position: Position) {

@@ -30,10 +30,16 @@ export class Board {
     this.defensor = new Defensor(
       allyHeros[0].id,
       allyHeros[0].x,
-      allyHeros[0].y
+      allyHeros[0].y,
+      allyHeros[0].shieldLife
     );
 
-    this.brawler = new Brawler(allyHeros[1].id, allyHeros[1].x, allyHeros[1].y);
+    this.brawler = new Brawler(
+      allyHeros[1].id,
+      allyHeros[1].x,
+      allyHeros[1].y,
+      allyHeros[1].shieldLife
+    );
 
     this.attacker = new Attacker(
       allyHeros[2].id,
@@ -53,7 +59,9 @@ export class Board {
 
     const brawlerAction = this.brawler.computeAction(
       this.monsters,
-      this.allyBase
+      this.allyBase,
+      this.defensor,
+      this.enemyHeroes
     );
     actions.push(brawlerAction);
 
