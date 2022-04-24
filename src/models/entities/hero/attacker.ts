@@ -96,8 +96,7 @@ export class Attacker {
     );
     if (
       enemyHeroEligibleTocontrol &&
-      base.getMana() > MANA_DISABLE_ATTACK_CONTROL_TRESHOLD &&
-      monsters.isOneFocusingEnemyBase()
+      base.getMana() > MANA_DISABLE_ATTACK_CONTROL_TRESHOLD
     ) {
       return new Action(
         this.id,
