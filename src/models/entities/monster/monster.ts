@@ -51,6 +51,10 @@ export class Monster implements Entity {
     return this.threatFor === 0;
   }
 
+  public isFocusingEnemyBase() {
+    return this.threatFor === 2 && this.nearBase === 1;
+  }
+
   public getX(): number {
     return this.position.getX();
   }

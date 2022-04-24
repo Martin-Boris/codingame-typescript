@@ -7,6 +7,7 @@ import {
   MANA_DISABLE_ATTACK_CONTROL_TRESHOLD,
 } from "../../constant/game-constant";
 import { Monsters } from "../monster/monsters";
+import { EnemyHeroes } from "./enemyHeroes";
 
 export class Attacker {
   private id: number;
@@ -21,11 +22,16 @@ export class Attacker {
     this.position = new Position(x, y);
   }
 
-  computeAction(monsters: Monsters, base: Base, turnCount: number): Action {
+  computeAction(
+    monsters: Monsters,
+    base: Base,
+    turnCount: number,
+    enemyHeroes: EnemyHeroes
+  ): Action {
     if (turnCount < ATTACK_MODE_TURN_TRESHOLD) {
       return this.earlyGameActionComputing(monsters, base, turnCount);
     }
-    return this.lateGameActionComputing(monsters, base, turnCount);
+    return this.lateGameActionComputing(monsters, base, turnCount, enemyHeroes);
   }
 
   private earlyGameActionComputing(
@@ -54,10 +60,12 @@ export class Attacker {
   private lateGameActionComputing(
     monsters: Monsters,
     base: Base,
-    turnCount: number
+    turnCount: number,
+    enemyHeroes: EnemyHeroes
   ): Action {
     const attackingPosition = base.getAttackerPosition(turnCount);
 
+    //moving into attack position
     if (!this.position.equals(attackingPosition)) {
       const monsterEligibleTocontrol = monsters.findOneEligibleToControl(
         this.position
@@ -81,6 +89,28 @@ export class Attacker {
         attackingPosition.convertIntoMoveAction() + " " + base.getMana()
       );
     }
+    //look to control enemy
+    const enemyHeroEligibleTocontrol = enemyHeroes.findEligibleHeroToControl(
+      base,
+      this.position
+    );
+    if (
+      enemyHeroEligibleTocontrol &&
+      base.getMana() > MANA_DISABLE_ATTACK_CONTROL_TRESHOLD &&
+      monsters.isOneFocusingEnemyBase()
+    ) {
+      return new Action(
+        this.id,
+        "SPELL CONTROL " +
+          enemyHeroEligibleTocontrol.getId() +
+          " " +
+          base.getPosition().getX() +
+          " " +
+          base.getPosition().getY()
+      );
+    }
+
+    //look for a spell shield on monsters
     const monstersAttackinEnemy =
       monsters.findOneInBaseRangeWithMoreHpEligibleToShield(
         base,
@@ -95,6 +125,7 @@ export class Attacker {
         "SPELL SHIELD " + monstersAttackinEnemy.getId()
       );
     }
+    //look for a wind on monster
     if (monsters.isOneInWindRangeAround(this.position)) {
       return new Action(
         this.id,
@@ -104,6 +135,7 @@ export class Attacker {
           base.getEnemyPosition().getY()
       );
     }
+    //look for control on monsters
     const monsterEligibleTocontrol = monsters.findOneEligibleToControl(
       this.position
     );

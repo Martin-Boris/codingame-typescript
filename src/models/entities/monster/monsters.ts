@@ -140,8 +140,13 @@ export class Monsters {
         computeDistancebeetwen(monster.getPosition(), heroPosition) <=
           CONTROL_RANGE &&
         !monster.isFocusingAlly() &&
-        monster.getHealth() > CONTROL_HEALTH_TRESHOLD
+        monster.getHealth() > CONTROL_HEALTH_TRESHOLD &&
+        !monster.getShieldLife()
     );
     return monstersEligibleToControl[0];
+  }
+
+  isOneFocusingEnemyBase(): boolean {
+    return this.monsters.some((monster) => monster.isFocusingEnemyBase());
   }
 }

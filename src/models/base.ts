@@ -89,4 +89,8 @@ export class Base {
   getMana(): number {
     return this.mana;
   }
+
+  getPosition(): Position {
+    return this.position;
+  }
 }

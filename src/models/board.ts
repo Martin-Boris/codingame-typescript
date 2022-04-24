@@ -3,6 +3,7 @@ import { Base } from "./base";
 import { Attacker } from "./entities/hero/attacker";
 import { Brawler } from "./entities/hero/brawler";
 import { Defensor } from "./entities/hero/defensor";
+import { EnemyHeroes } from "./entities/hero/enemyHeroes";
 import { Hero } from "./entities/hero/hero";
 import { Monsters } from "./entities/monster/monsters";
 
@@ -13,12 +14,14 @@ export class Board {
   private brawler: Brawler;
   private attacker: Attacker;
   private turnCount: number;
+  private enemyHeroes: EnemyHeroes;
 
   constructor(
     allyBase: Base,
     allyHeros: Array<Hero>,
     monsters: Monsters,
-    turnCount: number
+    turnCount: number,
+    enemyHeroes: EnemyHeroes
   ) {
     this.allyBase = allyBase;
     this.monsters = monsters;
@@ -37,6 +40,7 @@ export class Board {
       allyHeros[2].x,
       allyHeros[2].y
     );
+    this.enemyHeroes = enemyHeroes;
   }
 
   public triggerAction(): Array<String> {
@@ -56,7 +60,8 @@ export class Board {
     const attackerAction = this.attacker.computeAction(
       this.monsters,
       this.allyBase,
-      this.turnCount
+      this.turnCount,
+      this.enemyHeroes
     );
     actions.push(attackerAction);
 

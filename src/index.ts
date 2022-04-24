@@ -1,5 +1,7 @@
 import { Base } from "./models/base";
 import { Board } from "./models/board";
+import { EnemyHero } from "./models/entities/hero/enemyHero";
+import { EnemyHeroes } from "./models/entities/hero/enemyHeroes";
 import { Hero } from "./models/entities/hero/hero";
 import { Monster } from "./models/entities/monster/monster";
 import { Monsters } from "./models/entities/monster/monsters";
@@ -16,6 +18,7 @@ while (true) {
   let mana: number;
   const monsters: Array<Monster> = new Array();
   const allyHeros: Array<Hero> = new Array();
+  const enemyHeros: Array<EnemyHero> = new Array();
 
   turnCount++;
   for (let i = 0; i < 2; i++) {
@@ -43,11 +46,13 @@ while (true) {
     const nearBase = parseInt(inputs[9]); // 0=monster with no target yet, 1=monster targeting a base
     const threatFor = parseInt(inputs[10]); // Given this monster's trajectory, is it a threat to 1=your base, 2=your opponent's base, 0=neither
     if (type === 1) {
-      allyHeros.push({ id, x, y });
+      allyHeros.push({ id, x, y, shieldLife, isControlled });
     } else if (type === 0) {
       monsters.push(
         new Monster(id, x, y, health, vx, vy, nearBase, threatFor, shieldLife)
       );
+    } else if (type === 2) {
+      enemyHeros.push(new EnemyHero(id, x, y, shieldLife, isControlled));
     }
   }
   const allyBase = new Base(baseX, baseY, health, mana);
@@ -55,7 +60,8 @@ while (true) {
     allyBase,
     allyHeros,
     new Monsters(monsters),
-    turnCount
+    turnCount,
+    new EnemyHeroes(enemyHeros)
   );
 
   const actions = board.triggerAction();
