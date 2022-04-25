@@ -1,6 +1,7 @@
 import { computeDistancebeetwen } from "../../function/distance-computation";
 import { Position } from "../../utils/position";
 import { Action } from "../action";
+import { Base } from "../base";
 import { Monster } from "./monster/monster";
 import { Monsters } from "./monster/monsters";
 
@@ -18,7 +19,8 @@ export class Entity {
   computeAttackMove(
     monsters: Monsters,
     monsterToAttack: Monster,
-    atkPosition: Position
+    atkPosition: Position,
+    base: Base
   ) {
     const monsterInRange = monsters.findMonsterInRange(monsterToAttack, 1550);
     if (
@@ -30,21 +32,23 @@ export class Entity {
         "MOVE " +
           Math.round((monsterToAttack.getX() + monsterInRange.getX()) / 2) +
           " " +
-          Math.round((monsterToAttack.getY() + monsterInRange.getY()) / 2) +
-          " double : " +
-          monsterToAttack.getX() +
-          ", " +
-          monsterInRange.getX()
+          Math.round((monsterToAttack.getY() + monsterInRange.getY()) / 2)
       );
-      monsterInRange.setAttacked();
-      monsterToAttack.setAttacked();
+      if (monsterInRange.isKillableAlone(atkPosition, base)) {
+        monsterInRange.setAttacked();
+      }
+      if (monsterToAttack.isKillableAlone(atkPosition, base)) {
+        monsterToAttack.setAttacked();
+      }
       return action;
     }
     const action = new Action(
       this.id,
       "MOVE " + monsterToAttack.getX() + " " + monsterToAttack.getY()
     );
-    monsterToAttack.setAttacked();
+    if (monsterToAttack.isKillableAlone(atkPosition, base)) {
+      monsterToAttack.setAttacked();
+    }
     return action;
   }
 }

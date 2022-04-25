@@ -49,12 +49,13 @@ export class Attacker extends Entity {
     );
     if (
       monsterToAttack &&
-      computeDistancebeetwen(this.position, base.getPosition()) > 7000
+      computeDistancebeetwen(this.position, base.getPosition()) > 7500
     ) {
       const action = super.computeAttackMove(
         monsters,
         monsterToAttack,
-        this.position
+        this.position,
+        base
       );
       return action;
     }
@@ -196,7 +197,7 @@ export class Attacker extends Entity {
     const a = -4600 / 3419;
     const xMin: number = 6881;
     const xMax: number = 10300;
-    const b: number = 54901800 / 3419;
+    const b: number = 64901800 / 3419;
     const x = generateRandomNumber(xMin, xMax);
     return new Position(x, Math.round(a * x + b));
   }

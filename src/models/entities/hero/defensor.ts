@@ -1,4 +1,7 @@
-import { isInWindRange } from "../../../function/distance-computation";
+import {
+  computeDistancebeetwen,
+  isInWindRange,
+} from "../../../function/distance-computation";
 import { Position } from "../../../utils/position";
 import { Action } from "../../action";
 import { Base } from "../../base";
@@ -22,7 +25,17 @@ export class Defensor extends Entity {
   computeAction(monsters: Monsters, base: Base): Action {
     let monsterToAttack = monsters.findNearestFuturOrImmediatThreat(base);
     if (!monsterToAttack) {
-      return new Action(this.id, base.getDefensorPosition());
+      if (
+        computeDistancebeetwen(this.position, base.getDefensorPosition()) <
+          2000 &&
+        !this.shieldLife
+      ) {
+        return new Action(this.id, "SPELL SHIELD " + this.id);
+      }
+      return new Action(
+        this.id,
+        base.getDefensorPosition().convertIntoMoveAction()
+      );
     }
     if (
       isInWindRange(monsterToAttack.getPosition(), this.position) &&
@@ -42,7 +55,8 @@ export class Defensor extends Entity {
     const action = super.computeAttackMove(
       monsters,
       monsterToAttack,
-      this.position
+      this.position,
+      base
     );
     return action;
   }

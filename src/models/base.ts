@@ -45,11 +45,11 @@ export class Base {
     return Math.sqrt(Math.pow(dx, 2) + Math.pow(dy, 2));
   }
 
-  public getDefensorPosition(): String {
+  public getDefensorPosition(): Position {
     if (this.position.isPositionLeft()) {
-      return "MOVE 3496 2960";
+      return new Position(3496, 2960);
     }
-    return "MOVE 14389 6370";
+    return new Position(14389, 6370);
   }
 
   public getBralwerPosition(): String {

@@ -2,7 +2,11 @@ import { computeDistancebeetwen } from "../../../function/distance-computation";
 import { Position } from "../../../utils/position";
 import { Action } from "../../action";
 import { Base } from "../../base";
-import { ENEMY_FOCUS_RANGE, SHIELD_RANGE } from "../../constant/game-constant";
+import {
+  CONTROL_RANGE,
+  ENEMY_FOCUS_RANGE,
+  SHIELD_RANGE,
+} from "../../constant/game-constant";
 import { Entity } from "../entity";
 import { Monsters } from "../monster/monsters";
 import { Defensor } from "./defensor";
@@ -35,6 +39,8 @@ export class Brawler extends Entity {
         monsterToAttack.getPosition(),
         base.getPosition()
       ) > ENEMY_FOCUS_RANGE &&
+      computeDistancebeetwen(monsterToAttack.getPosition(), this.position) <
+        CONTROL_RANGE &&
       monsterToAttack.getHealth() > 15 &&
       base.getMana() > 50
     ) {
@@ -70,7 +76,8 @@ export class Brawler extends Entity {
     const action = super.computeAttackMove(
       monsters,
       monsterToAttack,
-      this.position
+      this.position,
+      base
     );
     return action;
   }
