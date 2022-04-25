@@ -2,12 +2,11 @@ import { computeDistancebeetwen } from "../../../function/distance-computation";
 import { Position } from "../../../utils/position";
 import { Action } from "../../action";
 import { Base } from "../../base";
-import { SHIELD_RANGE } from "../../constant/game-constant";
+import { ENEMY_FOCUS_RANGE, SHIELD_RANGE } from "../../constant/game-constant";
 import { Entity } from "../entity";
 import { Monsters } from "../monster/monsters";
 import { Defensor } from "./defensor";
 import { EnemyHeroes } from "./enemyHeroes";
-import { Hero } from "./hero";
 
 export class Brawler extends Entity {
   private x: number;
@@ -30,6 +29,25 @@ export class Brawler extends Entity {
     enemyHero: EnemyHeroes
   ): Action {
     let monsterToAttack = monsters.findNearestFuturOrImmediatThreat(base);
+    if (
+      monsterToAttack &&
+      computeDistancebeetwen(
+        monsterToAttack.getPosition(),
+        base.getPosition()
+      ) > ENEMY_FOCUS_RANGE &&
+      monsterToAttack.getHealth() > 15 &&
+      base.getMana() > 50
+    ) {
+      return new Action(
+        defensor.getId(),
+        "SPELL CONTROL " +
+          monsterToAttack.getId() +
+          " " +
+          base.getEnemyPosition().getX() +
+          " " +
+          base.getEnemyPosition().getY()
+      );
+    }
     if (enemyHero.isAtLeastOneHeroAttackingBase(base)) {
       if (
         !defensor.getShieldLife() &&
