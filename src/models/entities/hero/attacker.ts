@@ -1,3 +1,4 @@
+import { computeRoamingAttackPosition } from "../../../function/atk-roaming-patern";
 import { computeDistancebeetwen } from "../../../function/distance-computation";
 import { generateRandomNumber } from "../../../function/random";
 import { Position } from "../../../utils/position";
@@ -92,7 +93,10 @@ export class Attacker extends Entity {
       }
       return new Action(
         this.id,
-        this.computeRoamingAttackPosition(base).convertIntoMoveAction()
+        computeRoamingAttackPosition(
+          this.position,
+          base
+        ).convertIntoMoveAction()
       );
     }
     //look to control enemy
@@ -164,7 +168,7 @@ export class Attacker extends Entity {
     }
     return new Action(
       this.id,
-      this.computeRoamingAttackPosition(base).convertIntoMoveAction()
+      computeRoamingAttackPosition(this.position, base).convertIntoMoveAction()
     );
   }
 
@@ -175,7 +179,7 @@ export class Attacker extends Entity {
     return this.y;
   }
 
-  public computeRoamingAttackPosition(base: Base): Position {
+  public computeRoamingAttackPositionDeprecated(base: Base): Position {
     const a = -3677 / 3630;
     let xMin: number;
     let xMax: number;

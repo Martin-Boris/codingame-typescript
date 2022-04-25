@@ -54,12 +54,11 @@ export class Brawler extends Entity {
           base.getEnemyPosition().getY()
       );
     }
-    if (enemyHero.isAtLeastOneHeroAttackingBase(base)) {
+    if (enemyHero.isAtLeastOneHeroAttackingBase(base) && base.getMana() >= 10) {
       if (
         !defensor.getShieldLife() &&
         computeDistancebeetwen(this.position, defensor.getPosition()) <
-          SHIELD_RANGE &&
-        base.getMana() >= 10
+          SHIELD_RANGE
       ) {
         return new Action(defensor.getId(), "SPELL SHIELD " + defensor.getId());
       }

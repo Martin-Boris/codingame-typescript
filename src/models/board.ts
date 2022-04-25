@@ -53,7 +53,8 @@ export class Board {
     const actions: Array<Action> = [];
     const defensorAction = this.defensor.computeAction(
       this.monsters,
-      this.allyBase
+      this.allyBase,
+      this.enemyHeroes
     );
     actions.push(defensorAction);
 
