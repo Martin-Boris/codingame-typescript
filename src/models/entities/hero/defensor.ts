@@ -7,6 +7,7 @@ import { Action } from "../../action";
 import { Base } from "../../base";
 import { Entity } from "../entity";
 import { Monsters } from "../monster/monsters";
+import { EnemyHeroes } from "./enemyHeroes";
 
 export class Defensor extends Entity {
   private x: number;
@@ -22,13 +23,18 @@ export class Defensor extends Entity {
     this.shieldLife = shieldLife;
   }
 
-  computeAction(monsters: Monsters, base: Base): Action {
+  computeAction(
+    monsters: Monsters,
+    base: Base,
+    enemyHero: EnemyHeroes
+  ): Action {
     let monsterToAttack = monsters.findNearestFuturOrImmediatThreat(base);
     if (!monsterToAttack) {
       if (
         computeDistancebeetwen(this.position, base.getDefensorPosition()) <
           2000 &&
-        !this.shieldLife
+        !this.shieldLife &&
+        enemyHero.isAtLeastOneHeroAttackingBase(base)
       ) {
         return new Action(this.id, "SPELL SHIELD " + this.id);
       }
