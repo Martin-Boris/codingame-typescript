@@ -105,7 +105,8 @@ export class Monsters {
   isOneInWindRangeAround(position: Position) {
     return this.monsters.some(
       (monster) =>
-        computeDistancebeetwen(position, monster.getPosition()) <= WIND_RANGE
+        computeDistancebeetwen(position, monster.getPosition()) <= WIND_RANGE &&
+        !monster.getShieldLife()
     );
   }
 

@@ -1,3 +1,4 @@
+import { computeRoamingBrawlerPosition } from "../../../function/brawler-roaming-patern";
 import { computeDistancebeetwen } from "../../../function/distance-computation";
 import { Position } from "../../../utils/position";
 import { Action } from "../../action";
@@ -33,6 +34,8 @@ export class Brawler extends Entity {
     enemyHero: EnemyHeroes
   ): Action {
     let monsterToAttack = monsters.findNearestFuturOrImmediatThreat(base);
+
+    //defensive spell control
     if (
       monsterToAttack &&
       computeDistancebeetwen(
@@ -41,7 +44,7 @@ export class Brawler extends Entity {
       ) > ENEMY_FOCUS_RANGE &&
       computeDistancebeetwen(monsterToAttack.getPosition(), this.position) <
         CONTROL_RANGE &&
-      monsterToAttack.getHealth() > 15 &&
+      monsterToAttack.getHealth() > 12 &&
       base.getMana() > 50
     ) {
       return new Action(
@@ -54,6 +57,8 @@ export class Brawler extends Entity {
           base.getEnemyPosition().getY()
       );
     }
+
+    // spell shield
     if (enemyHero.isAtLeastOneHeroAttackingBase(base) && base.getMana() >= 10) {
       if (
         !defensor.getShieldLife() &&
@@ -70,7 +75,13 @@ export class Brawler extends Entity {
       monsterToAttack = monsters.findNearestMonster(base, this.position, 800);
     }
     if (!monsterToAttack) {
-      return new Action(this.id, base.getBralwerPosition());
+      return new Action(
+        this.id,
+        computeRoamingBrawlerPosition(
+          this.position,
+          base
+        ).convertIntoMoveAction()
+      );
     }
     const action = super.computeAttackMove(
       monsters,
